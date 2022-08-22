@@ -2,8 +2,11 @@ import type { NextPage } from 'next';
 import Head from 'next/head';
 import { Flex, Grid, GridItem } from '@chakra-ui/react';
 import { MiniCalendar } from '../components/Calendar';
+import { MONTHS } from '../lib/constants';
+import { useYearMonthQuery } from '../lib/useYearMonthQuery';
 
 const Year: NextPage = () => {
+  const { year } = useYearMonthQuery();
   return (
     <>
       <Head>
@@ -13,7 +16,9 @@ const Year: NextPage = () => {
       </Head>
 
       <Flex w="full">
-        <MiniCalendar year={2020} month={8} />
+        {MONTHS.map((month) => (
+          <MiniCalendar key={month} year={year} month={month} />
+        ))}
       </Flex>
     </>
   );

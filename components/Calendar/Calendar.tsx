@@ -1,6 +1,5 @@
 import { Button, Flex, Grid, GridItem, Stack } from '@chakra-ui/react';
-import dayjs, { Dayjs } from 'dayjs';
-import { useState } from 'react';
+import { WEEK_DAYS } from '../../lib/constants';
 import { useCalendar } from '../../lib/useCalendar';
 import { useCalendarDate } from '../../lib/useCurrentDate';
 
@@ -10,10 +9,10 @@ type CalendarProps = {
 };
 
 export const MiniCalendar: React.FC<CalendarProps> = ({ year, month }) => {
-  const { days, weekDays } = useCalendar(year, month);
+  const { days } = useCalendar(year, month);
   return (
     <Grid templateColumns="repeat(7, 1fr)" gap={1}>
-      {weekDays.map((weekDay) => (
+      {WEEK_DAYS.map((weekDay) => (
         <GridItem
           key={weekDay}
           w="7"
