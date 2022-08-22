@@ -1,8 +1,12 @@
+import { Button, Flex, Grid, GridItem, Stack } from '@chakra-ui/react';
 import type { NextPage } from 'next';
 import Head from 'next/head';
-import { Calendar } from '../components/Calendar';
+import { useCalendar } from '../lib/useCalendar';
+import { useYearMonthQuery } from '../lib/useYearMonthQuery';
 
 const Month: NextPage = () => {
+  const { year, month } = useYearMonthQuery();
+  const { days, weekDays } = useCalendar(year, month);
   return (
     <>
       <Head>
@@ -12,7 +16,32 @@ const Month: NextPage = () => {
       </Head>
 
       <main>
-        <Calendar defaultView="month" />
+        <Grid templateColumns="repeat(7, 1fr)" gap={1}>
+          {weekDays.map((weekDay) => (
+            <GridItem
+              key={weekDay}
+              w="7"
+              h="7"
+              display="flex"
+              justifyContent="center"
+              alignItems="center"
+            >
+              {weekDay}
+            </GridItem>
+          ))}
+          {days.map((day, i) => (
+            <GridItem
+              key={i}
+              w="7"
+              h="7"
+              display="flex"
+              justifyContent="center"
+              alignItems="center"
+            >
+              {day?.date()}
+            </GridItem>
+          ))}
+        </Grid>
       </main>
     </>
   );
