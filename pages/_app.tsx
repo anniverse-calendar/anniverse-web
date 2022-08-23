@@ -11,14 +11,14 @@ import {
   Box,
 } from '@chakra-ui/react';
 import { StatefulMiniCalendar } from '../components/Calendar';
-import '@fontsource/anek-gujarati/400.css';
+import '@fontsource/rocknroll-one/400.css';
 import { extendTheme } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
 
 const theme = extendTheme({
   fonts: {
     heading: `'Open Sans', sans-serif`,
-    body: `'Anek Gujarati', sans-serif`,
+    body: `'RocknRoll One', sans-serif`,
   },
 });
 

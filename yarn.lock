@@ -825,10 +825,10 @@
     minimatch "^3.1.2"
     strip-json-comments "^3.1.1"
 
-"@fontsource/anek-gujarati@^4.5.2":
-  version "4.5.2"
-  resolved "https://registry.yarnpkg.com/@fontsource/anek-gujarati/-/anek-gujarati-4.5.2.tgz#0515c293b29448b7afb6c94a1498b186067be1b8"
-  integrity sha512-ApmJT4GgZjeKGH9oSquwnMHafaHs3SSWWERoraOnRlLRsVDaJJrXTot+M551u6TQl9Ap6lMtGxp62oeugWr6rA==
+"@fontsource/rocknroll-one@^4.5.10":
+  version "4.5.10"
+  resolved "https://registry.yarnpkg.com/@fontsource/rocknroll-one/-/rocknroll-one-4.5.10.tgz#012a159523a66b30cf158a5c82774afe28b10445"
+  integrity sha512-nTIK0AY4MScMMAlO/Tjsi1TFLXvXhhzduaYNHmyPV3mhN8IZBbjeUJc6I0NkP3Kt/o6hNZAx56vnI4sp8KmDdg==
 
 "@humanwhocodes/config-array@^0.10.4":
   version "0.10.4"

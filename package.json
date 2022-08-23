@@ -13,7 +13,7 @@
     "@chakra-ui/react": "^2.2.8",
     "@emotion/react": "^11",
     "@emotion/styled": "^11",
-    "@fontsource/anek-gujarati": "^4.5.2",
+    "@fontsource/rocknroll-one": "^4.5.10",
     "dayjs": "^1.11.5",
     "framer-motion": "^6",
     "next": "12.2.5",
