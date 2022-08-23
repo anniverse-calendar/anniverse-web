@@ -1,7 +1,18 @@
-import { Button, Flex, Grid, GridItem, Stack } from '@chakra-ui/react';
+import {
+  Box,
+  Button,
+  ButtonGroup,
+  Flex,
+  Grid,
+  GridItem,
+  IconButton,
+  Stack,
+  Text,
+} from '@chakra-ui/react';
 import { WEEK_DAYS } from '../../lib/constants';
 import { useCalendar } from '../../lib/useCalendar';
 import { useCalendarDate } from '../../lib/useCurrentDate';
+import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
 
 type CalendarProps = {
   year: number;
@@ -21,7 +32,7 @@ export const MiniCalendar: React.FC<CalendarProps> = ({ year, month }) => {
           justifyContent="center"
           alignItems="center"
         >
-          {weekDay}
+          <Text fontSize="xs">{weekDay}</Text>
         </GridItem>
       ))}
       {days.map((day, i) => (
@@ -32,8 +43,11 @@ export const MiniCalendar: React.FC<CalendarProps> = ({ year, month }) => {
           display="flex"
           justifyContent="center"
           alignItems="center"
+          _hover={{ bgColor: 'gray.200' }}
+          borderRadius="full"
+          cursor="pointer"
         >
-          {day?.date()}
+          <Text fontSize="sm">{day?.date()}</Text>
         </GridItem>
       ))}
     </Grid>
@@ -46,23 +60,34 @@ export const StatefulMiniCalendar: React.FC<CalendarProps> = ({
 }) => {
   const [current, dispatch] = useCalendarDate(year, month);
   return (
-    <Stack>
-      <Flex>
-        <Button onClick={() => dispatch({ type: 'addYear', payload: -1 })}>
-          &lt;&lt;
-        </Button>
-        <Button onClick={() => dispatch({ type: 'addMonth', payload: -1 })}>
-          &lt;
-        </Button>
-        {current.year}年{current.month}月
-        <Button onClick={() => dispatch({ type: 'addMonth', payload: 1 })}>
-          &gt;
-        </Button>
-        <Button onClick={() => dispatch({ type: 'addYear', payload: 1 })}>
-          &gt;&gt;
-        </Button>
+    <Box padding="2">
+      <Flex
+        justifyContent="space-between"
+        alignItems="center"
+        paddingLeft="2"
+        paddingBottom="2"
+      >
+        <Text whiteSpace="nowrap" fontSize="md">
+          {current.year}年{current.month}月
+        </Text>
+        <ButtonGroup>
+          <IconButton
+            colorScheme="white"
+            color="GrayText"
+            icon={<ChevronLeftIcon />}
+            aria-label="前月"
+            onClick={() => dispatch({ type: 'addMonth', payload: -1 })}
+          />
+          <IconButton
+            colorScheme="white"
+            color="GrayText"
+            icon={<ChevronRightIcon />}
+            aria-label="前月"
+            onClick={() => dispatch({ type: 'addMonth', payload: 1 })}
+          />
+        </ButtonGroup>
       </Flex>
       <MiniCalendar year={current.year} month={current.month} />
-    </Stack>
+    </Box>
   );
 };

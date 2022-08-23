@@ -16,6 +16,9 @@ export const useCalendar = (
       if (firstDay.day() === i) break;
       results.unshift(undefined);
     }
+    for (let i = days.length; i < 42; i++) {
+      results.push(undefined);
+    }
     return results;
   }, [year, month]);
 
