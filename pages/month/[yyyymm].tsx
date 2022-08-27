@@ -9,9 +9,9 @@ import {
 } from '@chakra-ui/react';
 import type { GetServerSideProps, NextPage } from 'next';
 import Head from 'next/head';
-import { WEEK_DAYS } from '../../lib/constants';
-import { useCalendar } from '../../lib/useCalendar';
-import { useCalendarRouter } from '../../lib/useCalendarRouter';
+import { WEEK_DAYS } from '../../shared/constants';
+import { useCalendar } from '../../shared/useCalendar';
+import { useCalendarRouter } from '../../shared/useCalendarRouter';
 
 const Month: NextPage = () => {
   const { params, goNextMonth, goPrevMonth } = useCalendarRouter();

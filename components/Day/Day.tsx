@@ -11,7 +11,7 @@ import {
 } from '@chakra-ui/react';
 import dayjs from 'dayjs';
 import { useMemo } from 'react';
-import { WEEK_DAYS } from '../../lib/constants';
+import { WEEK_DAYS } from '../../shared/constants';
 
 type DayProps = {
   year: number;

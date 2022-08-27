@@ -2,8 +2,8 @@ import type { GetServerSideProps, NextPage } from 'next';
 import Head from 'next/head';
 import { Box, ButtonGroup, Flex, IconButton, Text } from '@chakra-ui/react';
 import { MiniCalendar } from '../../components/Calendar';
-import { MONTHS } from '../../lib/constants';
-import { useCalendarRouter } from '../../lib/useCalendarRouter';
+import { MONTHS } from '../../shared/constants';
+import { useCalendarRouter } from '../../shared/useCalendarRouter';
 import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
 
 const Year: NextPage = () => {

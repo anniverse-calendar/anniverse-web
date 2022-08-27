@@ -9,9 +9,9 @@ import {
   Stack,
   Text,
 } from '@chakra-ui/react';
-import { WEEK_DAYS } from '../../lib/constants';
-import { useCalendar } from '../../lib/useCalendar';
-import { useCalendarDate } from '../../lib/useCurrentDate';
+import { WEEK_DAYS } from '../../shared/constants';
+import { useCalendar } from '../../shared/useCalendar';
+import { useCalendarDate } from '../../shared/useCurrentDate';
 import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
 
 type CalendarProps = {
