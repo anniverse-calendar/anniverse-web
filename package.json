@@ -15,10 +15,12 @@
     "@emotion/styled": "^11",
     "@fontsource/rocknroll-one": "^4.5.10",
     "dayjs": "^1.11.5",
+    "ethers": "^5.7.0",
     "framer-motion": "^6",
     "next": "12.2.5",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "web3modal": "^1.9.8"
   },
   "devDependencies": {
     "@types/node": "18.7.8",

@@ -1,9 +1,19 @@
 import type { GetServerSideProps, NextPage } from 'next';
 import Head from 'next/head';
+import { useEffect } from 'react';
 import { Day as Date } from '../../components/Day';
-import { useCalendarRouter } from '../../lib/useCalendarRouter';
+import { useWeb3Context } from '../../shared/context/useWeb3Context';
+import { useCalendarRouter } from '../../shared/useCalendarRouter';
 
 const Day: NextPage = () => {
+  const { client } = useWeb3Context();
+  useEffect(() => {
+    console.log(client);
+    client.contract.name().then((name) => {
+      console.log(name);
+    });
+  }, [client]);
+
   const { params } = useCalendarRouter();
   return (
     <>
