@@ -42,3 +42,5 @@ export type { IERC165 } from "./@openzeppelin/contracts/utils/introspection/IERC
 export { IERC165__factory } from "./factories/@openzeppelin/contracts/utils/introspection/IERC165__factory";
 export type { AnniversaryToken } from "./contracts/AnniversaryToken";
 export { AnniversaryToken__factory } from "./factories/contracts/AnniversaryToken__factory";
+export type { Anniversable } from "./contracts/extensions/Anniversable";
+export { Anniversable__factory } from "./factories/contracts/extensions/Anniversable__factory";

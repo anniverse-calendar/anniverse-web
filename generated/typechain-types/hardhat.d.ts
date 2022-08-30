@@ -84,6 +84,10 @@ declare module "hardhat/types/runtime" {
       name: "AnniversaryToken",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.AnniversaryToken__factory>;
+    getContractFactory(
+      name: "Anniversable",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.Anniversable__factory>;
 
     getContractAt(
       name: "AccessControl",
@@ -175,6 +179,11 @@ declare module "hardhat/types/runtime" {
       address: string,
       signer?: ethers.Signer
     ): Promise<Contracts.AnniversaryToken>;
+    getContractAt(
+      name: "Anniversable",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.Anniversable>;
 
     // default types
     getContractFactory(

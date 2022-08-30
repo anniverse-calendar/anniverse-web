@@ -12,14 +12,17 @@ import {
 import dayjs from 'dayjs';
 import { useMemo } from 'react';
 import { WEEK_DAYS } from '../../shared/constants';
+import { useAnniversary } from './useAnniversary';
 
-type DayProps = {
+const DayTemplate: React.FC<{
   year: number;
   month: number;
   day: number;
-};
-
-export const Day: React.FC<DayProps> = ({ year, month, day }) => {
+  anniversary: {
+    name: string;
+    description: string;
+  };
+}> = ({ year, month, day, anniversary }) => {
   const weekday = useMemo(() => {
     const date = dayjs(new Date(year, month, day));
     return WEEK_DAYS[date.day()];
@@ -38,7 +41,7 @@ export const Day: React.FC<DayProps> = ({ year, month, day }) => {
         </Text>
       </Flex>
       <Heading fontSize="300px">{day}</Heading>
-      <Box maxW="500px">
+      <Box maxW="500px" w="full">
         <Flex justifyContent="space-between" w="full">
           <Badge
             padding="5"
@@ -49,18 +52,12 @@ export const Day: React.FC<DayProps> = ({ year, month, day }) => {
             {weekday}曜日
           </Badge>
           <Text padding="5" fontSize="4xl">
-            〇〇記念日
+            {anniversary.name}
           </Text>
         </Flex>
         <Stack padding="5">
-          <Text>
-            Christがキリスト、masはミサ（礼拝）という意味です。
-            クリスマスとは「キリストのミサ」という意味であり、世界のキリスト教国ではキリストの降誕をお祝いする日です。
-            現在では「クリスマス」という言葉自体が降誕祭を表す名詞になっていることは世界共通。
-            クリスマスの決まった挨拶といえば「Merry Christmas!」
-          </Text>
+          <Text>{anniversary.description}</Text>
           <Flex justifyContent="flex-end" alignItems="center" gap="2">
-            <Text>10ETH</Text>
             <Text>@hoge</Text>
             <Avatar size="sm" />
           </Flex>
@@ -70,5 +67,22 @@ export const Day: React.FC<DayProps> = ({ year, month, day }) => {
         </Stack>
       </Box>
     </Stack>
+  );
+};
+
+export const Day: React.FC<{
+  year: number;
+  month: number;
+  day: number;
+}> = ({ year, month, day }) => {
+  const anniversary = useAnniversary(month, day);
+
+  return (
+    <DayTemplate
+      year={year}
+      month={month}
+      day={day}
+      anniversary={anniversary}
+    />
   );
 };

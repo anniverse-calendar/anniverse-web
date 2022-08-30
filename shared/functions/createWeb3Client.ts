@@ -13,7 +13,7 @@ export function createWeb3Client(): Client {
   const contract = new ethers.Contract(
     getTokenAddress(),
     abi,
-    provider
+    provider.getSigner()
   ) as AnniversaryToken;
 
   return {
@@ -31,7 +31,7 @@ function getTokenAddress(): string {
 }
 
 function getProvider() {
-  return new ethers.providers.JsonRpcProvider();
+  return new ethers.providers.JsonRpcProvider('http://localhost:8545');
   // if (process.env.NEXT_PUBLIC_ANNIVERSARY_TOKEN_ADDRESS === 'localhost') {
   //   return new ethers.providers.JsonRpcProvider();
   // } else {
