@@ -31,5 +31,5 @@ export function useAnniversary(month: number, day: number): Anniversary {
  * @returns tokenId (mdd)
  */
 function tokenIdFromMonthDay(month: number, day: number): number {
-  return Number(`${month}${day.toString().padStart(2, '0')}`);
+  return month * 100 + day;
 }
