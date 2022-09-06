@@ -1,4 +1,4 @@
-import { EditIcon } from '@chakra-ui/icons';
+import { LinkIcon } from '@chakra-ui/icons';
 import {
   Avatar,
   Badge,
@@ -10,19 +10,21 @@ import {
   Text,
 } from '@chakra-ui/react';
 import dayjs from 'dayjs';
-import { useMemo } from 'react';
+import { ReactNode, useMemo } from 'react';
 import { WEEK_DAYS } from '../../shared/constants';
+import { AnniversaryFormModal } from './AnniversaryForm';
 import { useAnniversary } from './useAnniversary';
 
 const DayTemplate: React.FC<{
   year: number;
   month: number;
   day: number;
-  anniversary: {
+  anniversary?: {
     name: string;
     description: string;
   };
-}> = ({ year, month, day, anniversary }) => {
+  footer?: ReactNode;
+}> = ({ year, month, day, anniversary, footer }) => {
   const weekday = useMemo(() => {
     const date = dayjs(new Date(year, month, day));
     return WEEK_DAYS[date.day()];
@@ -52,17 +54,17 @@ const DayTemplate: React.FC<{
             {weekday}曜日
           </Badge>
           <Text padding="5" fontSize="4xl">
-            {anniversary.name}
+            {anniversary?.name}
           </Text>
         </Flex>
         <Stack padding="5">
-          <Text>{anniversary.description}</Text>
+          <Text>{anniversary?.description}</Text>
           <Flex justifyContent="flex-end" alignItems="center" gap="2">
             <Text>@hoge</Text>
             <Avatar size="sm" />
           </Flex>
           <Flex justifyContent="flex-end" alignItems="center" gap="2">
-            <Button leftIcon={<EditIcon />}>記念日を登録する</Button>
+            {footer}
           </Flex>
         </Stack>
       </Box>
@@ -74,8 +76,16 @@ export const Day: React.FC<{
   year: number;
   month: number;
   day: number;
-}> = ({ year, month, day }) => {
-  const anniversary = useAnniversary(month, day);
+  anniversary: {
+    name: string;
+    description: string;
+  };
+}> = ({ year, month, day, anniversary }) => {
+  const { state, value, connect, update, mint } = useAnniversary(
+    month,
+    day,
+    anniversary
+  );
 
   return (
     <DayTemplate
@@ -83,6 +93,31 @@ export const Day: React.FC<{
       month={month}
       day={day}
       anniversary={anniversary}
+      footer={
+        state === 'initialized' ? (
+          <Button
+            onClick={(e) => {
+              e.preventDefault();
+              connect();
+            }}
+            leftIcon={<LinkIcon />}
+          >
+            ログイン
+          </Button>
+        ) : state === 'connected' ? (
+          <Button
+            onClick={(e) => {
+              e.preventDefault();
+              mint();
+            }}
+            leftIcon={<LinkIcon />}
+          >
+            ミント
+          </Button>
+        ) : (
+          <AnniversaryFormModal defaultValues={value} onSubmit={update} />
+        )
+      }
     />
   );
 };

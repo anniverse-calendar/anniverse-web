@@ -1,10 +1,19 @@
 import type { GetServerSideProps, NextPage } from 'next';
 import Head from 'next/head';
 import { Day as Date } from '../../components/Day';
-import { useCalendarRouter } from '../../shared/useCalendarRouter';
+import type { Anniversable } from '../../generated/typechain-types';
+import {
+  createWeb3Client,
+  jsonRpcProvider,
+} from '../../shared/functions/createWeb3Client';
+import { parseYYYYMMDD } from '../../shared/functions/parseYYYYMMDD';
 
-const Day: NextPage = () => {
-  const { params } = useCalendarRouter();
+const Day: NextPage<{
+  year: number;
+  month: number;
+  day: number;
+  anniversary: Anniversable.AnniversaryStructOutput;
+}> = (params) => {
   return (
     <>
       <Head>
@@ -19,8 +28,30 @@ const Day: NextPage = () => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async () => {
-  return { props: {} };
+export const getServerSideProps: GetServerSideProps = async ({ params }) => {
+  if (params?.yyyymmdd == null) {
+    return {
+      notFound: true,
+    };
+  }
+
+  const { yyyymmdd } = params;
+  const { year, month, day } = parseYYYYMMDD(yyyymmdd);
+  const tokenId = month * 100 + day;
+  const client = createWeb3Client(jsonRpcProvider());
+  const anniversary = await client.contract.anniversary(tokenId);
+  return {
+    props: {
+      year,
+      month,
+      day,
+      anniversary: {
+        name: anniversary.name,
+        description: anniversary.description,
+        isEmpty: anniversary.isEmpty,
+      },
+    },
+  };
 };
 
 export default Day;

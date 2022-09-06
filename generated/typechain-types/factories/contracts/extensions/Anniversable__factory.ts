@@ -107,6 +107,11 @@ const _abi = [
             name: "description",
             type: "string",
           },
+          {
+            internalType: "bool",
+            name: "isEmpty",
+            type: "bool",
+          },
         ],
         internalType: "struct Anniversable.Anniversary",
         name: "",

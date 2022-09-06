@@ -9,6 +9,7 @@ import type {
   CallOverrides,
   ContractTransaction,
   Overrides,
+  PayableOverrides,
   PopulatedTransaction,
   Signer,
   utils,
@@ -31,18 +32,19 @@ export declare namespace Anniversable {
   export type AnniversaryStruct = {
     name: PromiseOrValue<string>;
     description: PromiseOrValue<string>;
+    isEmpty: PromiseOrValue<boolean>;
   };
 
-  export type AnniversaryStructOutput = [string, string] & {
+  export type AnniversaryStructOutput = [string, string, boolean] & {
     name: string;
     description: string;
+    isEmpty: boolean;
   };
 }
 
 export interface AnniversaryTokenInterface extends utils.Interface {
   functions: {
     "DEFAULT_ADMIN_ROLE()": FunctionFragment;
-    "MINTER_ROLE()": FunctionFragment;
     "PAUSER_ROLE()": FunctionFragment;
     "anniversary(uint256)": FunctionFragment;
     "approve(address,uint256)": FunctionFragment;
@@ -53,9 +55,12 @@ export interface AnniversaryTokenInterface extends utils.Interface {
     "getRoleMember(bytes32,uint256)": FunctionFragment;
     "getRoleMemberCount(bytes32)": FunctionFragment;
     "grantRole(bytes32,address)": FunctionFragment;
+    "hasMinted(uint256,uint256)": FunctionFragment;
     "hasRole(bytes32,address)": FunctionFragment;
     "isApprovedForAll(address,address)": FunctionFragment;
-    "mint(address,uint256)": FunctionFragment;
+    "isContractOwner(address)": FunctionFragment;
+    "isMinter(uint256)": FunctionFragment;
+    "mint(uint256,uint256)": FunctionFragment;
     "name()": FunctionFragment;
     "ownerOf(uint256)": FunctionFragment;
     "pause()": FunctionFragment;
@@ -79,7 +84,6 @@ export interface AnniversaryTokenInterface extends utils.Interface {
   getFunction(
     nameOrSignatureOrTopic:
       | "DEFAULT_ADMIN_ROLE"
-      | "MINTER_ROLE"
       | "PAUSER_ROLE"
       | "anniversary"
       | "approve"
@@ -90,8 +94,11 @@ export interface AnniversaryTokenInterface extends utils.Interface {
       | "getRoleMember"
       | "getRoleMemberCount"
       | "grantRole"
+      | "hasMinted"
       | "hasRole"
       | "isApprovedForAll"
+      | "isContractOwner"
+      | "isMinter"
       | "mint"
       | "name"
       | "ownerOf"
@@ -115,10 +122,6 @@ export interface AnniversaryTokenInterface extends utils.Interface {
 
   encodeFunctionData(
     functionFragment: "DEFAULT_ADMIN_ROLE",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: "MINTER_ROLE",
     values?: undefined
   ): string;
   encodeFunctionData(
@@ -162,6 +165,10 @@ export interface AnniversaryTokenInterface extends utils.Interface {
     values: [PromiseOrValue<BytesLike>, PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
+    functionFragment: "hasMinted",
+    values: [PromiseOrValue<BigNumberish>, PromiseOrValue<BigNumberish>]
+  ): string;
+  encodeFunctionData(
     functionFragment: "hasRole",
     values: [PromiseOrValue<BytesLike>, PromiseOrValue<string>]
   ): string;
@@ -170,8 +177,16 @@ export interface AnniversaryTokenInterface extends utils.Interface {
     values: [PromiseOrValue<string>, PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
+    functionFragment: "isContractOwner",
+    values: [PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "isMinter",
+    values: [PromiseOrValue<BigNumberish>]
+  ): string;
+  encodeFunctionData(
     functionFragment: "mint",
-    values: [PromiseOrValue<string>, PromiseOrValue<BigNumberish>]
+    values: [PromiseOrValue<BigNumberish>, PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(functionFragment: "name", values?: undefined): string;
   encodeFunctionData(
@@ -253,10 +268,6 @@ export interface AnniversaryTokenInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "MINTER_ROLE",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
     functionFragment: "PAUSER_ROLE",
     data: BytesLike
   ): Result;
@@ -284,11 +295,17 @@ export interface AnniversaryTokenInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "grantRole", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "hasMinted", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "hasRole", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "isApprovedForAll",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(
+    functionFragment: "isContractOwner",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: "isMinter", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "mint", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "name", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "ownerOf", data: BytesLike): Result;
@@ -476,8 +493,6 @@ export interface AnniversaryToken extends BaseContract {
   functions: {
     DEFAULT_ADMIN_ROLE(overrides?: CallOverrides): Promise<[string]>;
 
-    MINTER_ROLE(overrides?: CallOverrides): Promise<[string]>;
-
     PAUSER_ROLE(overrides?: CallOverrides): Promise<[string]>;
 
     anniversary(
@@ -528,6 +543,12 @@ export interface AnniversaryToken extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
+    hasMinted(
+      month: PromiseOrValue<BigNumberish>,
+      day: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<[boolean]>;
+
     hasRole(
       role: PromiseOrValue<BytesLike>,
       account: PromiseOrValue<string>,
@@ -540,10 +561,20 @@ export interface AnniversaryToken extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[boolean]>;
 
+    isContractOwner(
+      _address: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<[boolean]>;
+
+    isMinter(
+      tokenId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<[boolean]>;
+
     mint(
-      to: PromiseOrValue<string>,
-      mdd: PromiseOrValue<BigNumberish>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
+      month: PromiseOrValue<BigNumberish>,
+      day: PromiseOrValue<BigNumberish>,
+      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
     name(overrides?: CallOverrides): Promise<[string]>;
@@ -638,8 +669,6 @@ export interface AnniversaryToken extends BaseContract {
 
   DEFAULT_ADMIN_ROLE(overrides?: CallOverrides): Promise<string>;
 
-  MINTER_ROLE(overrides?: CallOverrides): Promise<string>;
-
   PAUSER_ROLE(overrides?: CallOverrides): Promise<string>;
 
   anniversary(
@@ -690,6 +719,12 @@ export interface AnniversaryToken extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
+  hasMinted(
+    month: PromiseOrValue<BigNumberish>,
+    day: PromiseOrValue<BigNumberish>,
+    overrides?: CallOverrides
+  ): Promise<boolean>;
+
   hasRole(
     role: PromiseOrValue<BytesLike>,
     account: PromiseOrValue<string>,
@@ -702,10 +737,20 @@ export interface AnniversaryToken extends BaseContract {
     overrides?: CallOverrides
   ): Promise<boolean>;
 
+  isContractOwner(
+    _address: PromiseOrValue<string>,
+    overrides?: CallOverrides
+  ): Promise<boolean>;
+
+  isMinter(
+    tokenId: PromiseOrValue<BigNumberish>,
+    overrides?: CallOverrides
+  ): Promise<boolean>;
+
   mint(
-    to: PromiseOrValue<string>,
-    mdd: PromiseOrValue<BigNumberish>,
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
+    month: PromiseOrValue<BigNumberish>,
+    day: PromiseOrValue<BigNumberish>,
+    overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
   name(overrides?: CallOverrides): Promise<string>;
@@ -800,8 +845,6 @@ export interface AnniversaryToken extends BaseContract {
   callStatic: {
     DEFAULT_ADMIN_ROLE(overrides?: CallOverrides): Promise<string>;
 
-    MINTER_ROLE(overrides?: CallOverrides): Promise<string>;
-
     PAUSER_ROLE(overrides?: CallOverrides): Promise<string>;
 
     anniversary(
@@ -852,6 +895,12 @@ export interface AnniversaryToken extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
+    hasMinted(
+      month: PromiseOrValue<BigNumberish>,
+      day: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<boolean>;
+
     hasRole(
       role: PromiseOrValue<BytesLike>,
       account: PromiseOrValue<string>,
@@ -864,9 +913,19 @@ export interface AnniversaryToken extends BaseContract {
       overrides?: CallOverrides
     ): Promise<boolean>;
 
+    isContractOwner(
+      _address: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<boolean>;
+
+    isMinter(
+      tokenId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<boolean>;
+
     mint(
-      to: PromiseOrValue<string>,
-      mdd: PromiseOrValue<BigNumberish>,
+      month: PromiseOrValue<BigNumberish>,
+      day: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -1033,8 +1092,6 @@ export interface AnniversaryToken extends BaseContract {
   estimateGas: {
     DEFAULT_ADMIN_ROLE(overrides?: CallOverrides): Promise<BigNumber>;
 
-    MINTER_ROLE(overrides?: CallOverrides): Promise<BigNumber>;
-
     PAUSER_ROLE(overrides?: CallOverrides): Promise<BigNumber>;
 
     anniversary(
@@ -1085,6 +1142,12 @@ export interface AnniversaryToken extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
+    hasMinted(
+      month: PromiseOrValue<BigNumberish>,
+      day: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     hasRole(
       role: PromiseOrValue<BytesLike>,
       account: PromiseOrValue<string>,
@@ -1097,10 +1160,20 @@ export interface AnniversaryToken extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
+    isContractOwner(
+      _address: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    isMinter(
+      tokenId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     mint(
-      to: PromiseOrValue<string>,
-      mdd: PromiseOrValue<BigNumberish>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
+      month: PromiseOrValue<BigNumberish>,
+      day: PromiseOrValue<BigNumberish>,
+      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
     name(overrides?: CallOverrides): Promise<BigNumber>;
@@ -1198,8 +1271,6 @@ export interface AnniversaryToken extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    MINTER_ROLE(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
     PAUSER_ROLE(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     anniversary(
@@ -1250,6 +1321,12 @@ export interface AnniversaryToken extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
+    hasMinted(
+      month: PromiseOrValue<BigNumberish>,
+      day: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
     hasRole(
       role: PromiseOrValue<BytesLike>,
       account: PromiseOrValue<string>,
@@ -1262,10 +1339,20 @@ export interface AnniversaryToken extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
+    isContractOwner(
+      _address: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    isMinter(
+      tokenId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
     mint(
-      to: PromiseOrValue<string>,
-      mdd: PromiseOrValue<BigNumberish>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
+      month: PromiseOrValue<BigNumberish>,
+      day: PromiseOrValue<BigNumberish>,
+      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
     name(overrides?: CallOverrides): Promise<PopulatedTransaction>;

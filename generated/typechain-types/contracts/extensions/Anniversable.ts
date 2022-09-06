@@ -31,11 +31,13 @@ export declare namespace Anniversable {
   export type AnniversaryStruct = {
     name: PromiseOrValue<string>;
     description: PromiseOrValue<string>;
+    isEmpty: PromiseOrValue<boolean>;
   };
 
-  export type AnniversaryStructOutput = [string, string] & {
+  export type AnniversaryStructOutput = [string, string, boolean] & {
     name: string;
     description: string;
+    isEmpty: boolean;
   };
 }
 
