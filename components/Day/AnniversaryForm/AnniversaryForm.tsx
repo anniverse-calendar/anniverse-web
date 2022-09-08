@@ -23,11 +23,13 @@ type FormData = {
 };
 
 type AnniversaryFormProps = {
+  disabled?: boolean;
   defaultValues?: FormData;
   onSubmit(data: FormData): void;
 };
 
 export const AnniversaryFormModal: React.FC<AnniversaryFormProps> = ({
+  disabled,
   defaultValues,
   onSubmit,
 }) => {
@@ -37,7 +39,7 @@ export const AnniversaryFormModal: React.FC<AnniversaryFormProps> = ({
   );
   return (
     <>
-      <Button leftIcon={<EditIcon />} onClick={onOpen}>
+      <Button disabled={disabled} leftIcon={<EditIcon />} onClick={onOpen}>
         記念日を登録する
       </Button>
 
@@ -48,6 +50,7 @@ export const AnniversaryFormModal: React.FC<AnniversaryFormProps> = ({
             onSubmit={(e) => {
               e.preventDefault();
               onSubmit(formData);
+              onClose();
             }}
           >
             <ModalHeader>記念日を登録する</ModalHeader>

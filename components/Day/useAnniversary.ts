@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useWeb3Context } from '../../shared/context/useWeb3Context';
 
 export type Anniversary = {
@@ -6,63 +6,61 @@ export type Anniversary = {
   description: string;
 };
 
-type State = 'initialized' | 'connected' | 'minted';
-
 export function useAnniversary(
   month: number,
   day: number,
   defaultValue?: Anniversary
 ): {
   value?: Anniversary;
-  state: State;
-  connect(): Promise<void>;
+  isMinted: boolean;
+  canEdit: boolean;
   mint(): Promise<void>;
   update(data: Anniversary): Promise<void>;
 } {
   const [anniversary, setAnniversary] = useState<Anniversary | undefined>(
     defaultValue
   );
-  const { isConnected, connect, web3Client } = useWeb3Context();
-  const [state, setState] = useState<State>(
-    isConnected() ? 'connected' : 'initialized'
-  );
+  const { web3Client, startFetch, finishFetch } = useWeb3Context();
+  const [isMinted, setIsMinted] = useState(false);
+  const [canEdit, setCanEdit] = useState(false);
   useEffect(() => {
-    if (!isConnected()) return;
+    if (web3Client == null) return;
 
     const tokenId = tokenIdFromMonthDay(month, day);
-    web3Client().then((client) =>
-      client.contract.anniversary(tokenId).then(setAnniversary)
+    web3Client.contract.on(web3Client.contract.filters.Transfer(), (e) => {
+      finishFetch();
+      console.log('transfer', e);
+      web3Client.contract.hasMinted(month, day).then(setIsMinted);
+      web3Client.contract.isMinter(month, day).then(setCanEdit);
+    });
+    web3Client.contract.on(
+      web3Client.contract.filters.AnniversaryUpdated(),
+      (e) => {
+        finishFetch();
+        console.log('anniversary updated', e);
+        web3Client.contract.anniversary(tokenId).then(setAnniversary);
+      }
     );
-  }, [web3Client, month, day, setAnniversary, isConnected]);
-
-  useEffect(() => {
-    if (state === 'connected') {
-      web3Client().then(async (client) => {
-        if (await client.contract.hasMinted(month, day)) {
-          setState('minted');
-        }
-      });
-    }
-  }, [state, setState, web3Client, month, day]);
+  }, [web3Client, month, day, setAnniversary, finishFetch]);
 
   return {
     value: anniversary,
-    state,
-    async connect() {
-      await connect();
-      setState(isConnected() ? 'connected' : 'initialized');
-    },
+    isMinted,
+    canEdit,
     async mint() {
-      const client = await web3Client();
-      await client.contract.mint(month, day);
+      if (web3Client == null) return;
+      try {
+        startFetch();
+        await web3Client?.contract.mint(month, day);
+      } catch (e) {
+        console.warn(e);
+      }
     },
     async update(data: Anniversary) {
+      if (web3Client == null) return;
+      startFetch();
       const tokenId = tokenIdFromMonthDay(month, day);
-      const client = await web3Client();
-      if (isConnected()) {
-        setState('connected');
-        client.contract.setAnniversary(tokenId, data.name, data.description);
-      }
+      web3Client?.contract.setAnniversary(tokenId, data.name, data.description);
     },
   };
 }

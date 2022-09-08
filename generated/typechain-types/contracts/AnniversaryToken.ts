@@ -29,6 +29,16 @@ import type {
 } from "../common";
 
 export declare namespace Anniversable {
+  export type _AnniversaryStruct = {
+    name: PromiseOrValue<string>;
+    description: PromiseOrValue<string>;
+  };
+
+  export type _AnniversaryStructOutput = [string, string] & {
+    name: string;
+    description: string;
+  };
+
   export type AnniversaryStruct = {
     name: PromiseOrValue<string>;
     description: PromiseOrValue<string>;
@@ -59,7 +69,7 @@ export interface AnniversaryTokenInterface extends utils.Interface {
     "hasRole(bytes32,address)": FunctionFragment;
     "isApprovedForAll(address,address)": FunctionFragment;
     "isContractOwner(address)": FunctionFragment;
-    "isMinter(uint256)": FunctionFragment;
+    "isMinter(uint256,uint256)": FunctionFragment;
     "mint(uint256,uint256)": FunctionFragment;
     "name()": FunctionFragment;
     "ownerOf(uint256)": FunctionFragment;
@@ -182,7 +192,7 @@ export interface AnniversaryTokenInterface extends utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "isMinter",
-    values: [PromiseOrValue<BigNumberish>]
+    values: [PromiseOrValue<BigNumberish>, PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(
     functionFragment: "mint",
@@ -357,6 +367,7 @@ export interface AnniversaryTokenInterface extends utils.Interface {
   decodeFunctionResult(functionFragment: "unpause", data: BytesLike): Result;
 
   events: {
+    "AnniversaryUpdated(uint256,tuple)": EventFragment;
     "Approval(address,address,uint256)": EventFragment;
     "ApprovalForAll(address,address,bool)": EventFragment;
     "Paused(address)": EventFragment;
@@ -367,6 +378,7 @@ export interface AnniversaryTokenInterface extends utils.Interface {
     "Unpaused(address)": EventFragment;
   };
 
+  getEvent(nameOrSignatureOrTopic: "AnniversaryUpdated"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Approval"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "ApprovalForAll"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Paused"): EventFragment;
@@ -376,6 +388,18 @@ export interface AnniversaryTokenInterface extends utils.Interface {
   getEvent(nameOrSignatureOrTopic: "Transfer"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Unpaused"): EventFragment;
 }
+
+export interface AnniversaryUpdatedEventObject {
+  _tokenId: BigNumber;
+  _value: Anniversable._AnniversaryStructOutput;
+}
+export type AnniversaryUpdatedEvent = TypedEvent<
+  [BigNumber, Anniversable._AnniversaryStructOutput],
+  AnniversaryUpdatedEventObject
+>;
+
+export type AnniversaryUpdatedEventFilter =
+  TypedEventFilter<AnniversaryUpdatedEvent>;
 
 export interface ApprovalEventObject {
   owner: string;
@@ -567,7 +591,8 @@ export interface AnniversaryToken extends BaseContract {
     ): Promise<[boolean]>;
 
     isMinter(
-      tokenId: PromiseOrValue<BigNumberish>,
+      month: PromiseOrValue<BigNumberish>,
+      day: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<[boolean]>;
 
@@ -743,7 +768,8 @@ export interface AnniversaryToken extends BaseContract {
   ): Promise<boolean>;
 
   isMinter(
-    tokenId: PromiseOrValue<BigNumberish>,
+    month: PromiseOrValue<BigNumberish>,
+    day: PromiseOrValue<BigNumberish>,
     overrides?: CallOverrides
   ): Promise<boolean>;
 
@@ -919,7 +945,8 @@ export interface AnniversaryToken extends BaseContract {
     ): Promise<boolean>;
 
     isMinter(
-      tokenId: PromiseOrValue<BigNumberish>,
+      month: PromiseOrValue<BigNumberish>,
+      day: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<boolean>;
 
@@ -1016,6 +1043,15 @@ export interface AnniversaryToken extends BaseContract {
   };
 
   filters: {
+    "AnniversaryUpdated(uint256,tuple)"(
+      _tokenId?: PromiseOrValue<BigNumberish> | null,
+      _value?: null
+    ): AnniversaryUpdatedEventFilter;
+    AnniversaryUpdated(
+      _tokenId?: PromiseOrValue<BigNumberish> | null,
+      _value?: null
+    ): AnniversaryUpdatedEventFilter;
+
     "Approval(address,address,uint256)"(
       owner?: PromiseOrValue<string> | null,
       approved?: PromiseOrValue<string> | null,
@@ -1166,7 +1202,8 @@ export interface AnniversaryToken extends BaseContract {
     ): Promise<BigNumber>;
 
     isMinter(
-      tokenId: PromiseOrValue<BigNumberish>,
+      month: PromiseOrValue<BigNumberish>,
+      day: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
@@ -1345,7 +1382,8 @@ export interface AnniversaryToken extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     isMinter(
-      tokenId: PromiseOrValue<BigNumberish>,
+      month: PromiseOrValue<BigNumberish>,
+      day: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 

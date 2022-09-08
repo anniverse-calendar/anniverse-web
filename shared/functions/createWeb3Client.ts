@@ -14,7 +14,7 @@ const networkAddress =
 
 export async function web3Provider(): Promise<ethers.providers.Web3Provider> {
   const web3Modal = new Web3Modal({
-    network: 'localhost', // optional
+    // network: 'localhost', // optional
     cacheProvider: true, // optional
     providerOptions: {}, // required
   });

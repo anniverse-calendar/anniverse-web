@@ -28,6 +28,16 @@ import type {
 } from "../../common";
 
 export declare namespace Anniversable {
+  export type _AnniversaryStruct = {
+    name: PromiseOrValue<string>;
+    description: PromiseOrValue<string>;
+  };
+
+  export type _AnniversaryStructOutput = [string, string] & {
+    name: string;
+    description: string;
+  };
+
   export type AnniversaryStruct = {
     name: PromiseOrValue<string>;
     description: PromiseOrValue<string>;
@@ -195,15 +205,29 @@ export interface AnniversableInterface extends utils.Interface {
   ): Result;
 
   events: {
+    "AnniversaryUpdated(uint256,tuple)": EventFragment;
     "Approval(address,address,uint256)": EventFragment;
     "ApprovalForAll(address,address,bool)": EventFragment;
     "Transfer(address,address,uint256)": EventFragment;
   };
 
+  getEvent(nameOrSignatureOrTopic: "AnniversaryUpdated"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Approval"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "ApprovalForAll"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Transfer"): EventFragment;
 }
+
+export interface AnniversaryUpdatedEventObject {
+  _tokenId: BigNumber;
+  _value: Anniversable._AnniversaryStructOutput;
+}
+export type AnniversaryUpdatedEvent = TypedEvent<
+  [BigNumber, Anniversable._AnniversaryStructOutput],
+  AnniversaryUpdatedEventObject
+>;
+
+export type AnniversaryUpdatedEventFilter =
+  TypedEventFilter<AnniversaryUpdatedEvent>;
 
 export interface ApprovalEventObject {
   owner: string;
@@ -515,6 +539,15 @@ export interface Anniversable extends BaseContract {
   };
 
   filters: {
+    "AnniversaryUpdated(uint256,tuple)"(
+      _tokenId?: PromiseOrValue<BigNumberish> | null,
+      _value?: null
+    ): AnniversaryUpdatedEventFilter;
+    AnniversaryUpdated(
+      _tokenId?: PromiseOrValue<BigNumberish> | null,
+      _value?: null
+    ): AnniversaryUpdatedEventFilter;
+
     "Approval(address,address,uint256)"(
       owner?: PromiseOrValue<string> | null,
       approved?: PromiseOrValue<string> | null,

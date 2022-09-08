@@ -12,6 +12,7 @@ import {
 import dayjs from 'dayjs';
 import { ReactNode, useMemo } from 'react';
 import { WEEK_DAYS } from '../../shared/constants';
+import { useWeb3Context } from '../../shared/context/useWeb3Context';
 import { AnniversaryFormModal } from './AnniversaryForm';
 import { useAnniversary } from './useAnniversary';
 
@@ -81,7 +82,8 @@ export const Day: React.FC<{
     description: string;
   };
 }> = ({ year, month, day, anniversary }) => {
-  const { state, value, connect, update, mint } = useAnniversary(
+  const { web3Client, connect } = useWeb3Context();
+  const { value, update, mint, isMinted, canEdit } = useAnniversary(
     month,
     day,
     anniversary
@@ -92,9 +94,9 @@ export const Day: React.FC<{
       year={year}
       month={month}
       day={day}
-      anniversary={anniversary}
+      anniversary={value}
       footer={
-        state === 'initialized' ? (
+        web3Client == null ? (
           <Button
             onClick={(e) => {
               e.preventDefault();
@@ -104,7 +106,7 @@ export const Day: React.FC<{
           >
             ログイン
           </Button>
-        ) : state === 'connected' ? (
+        ) : !isMinted ? (
           <Button
             onClick={(e) => {
               e.preventDefault();
@@ -115,7 +117,11 @@ export const Day: React.FC<{
             ミント
           </Button>
         ) : (
-          <AnniversaryFormModal defaultValues={value} onSubmit={update} />
+          <AnniversaryFormModal
+            disabled={!canEdit}
+            defaultValues={value}
+            onSubmit={update}
+          />
         )
       }
     />
