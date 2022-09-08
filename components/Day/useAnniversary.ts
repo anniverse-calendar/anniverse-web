@@ -1,9 +1,12 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useWeb3Context } from '../../shared/context/useWeb3Context';
+import { useToast } from '@chakra-ui/react';
 
 export type Anniversary = {
   name: string;
   description: string;
+  author: string;
+  authorUrl: string;
 };
 
 export function useAnniversary(
@@ -17,6 +20,7 @@ export function useAnniversary(
   mint(): Promise<void>;
   update(data: Anniversary): Promise<void>;
 } {
+  const toast = useToast();
   const [anniversary, setAnniversary] = useState<Anniversary | undefined>(
     defaultValue
   );
@@ -28,6 +32,14 @@ export function useAnniversary(
 
     const tokenId = tokenIdFromMonthDay(month, day);
     web3Client.contract.on(web3Client.contract.filters.Transfer(), (e) => {
+      if (finishFetch()) {
+        toast({
+          title: 'ミントしました！',
+          status: 'success',
+          duration: 9000,
+          isClosable: true,
+        });
+      }
       finishFetch();
       console.log('transfer', e);
       web3Client.contract.hasMinted(month, day).then(setIsMinted);
@@ -36,12 +48,19 @@ export function useAnniversary(
     web3Client.contract.on(
       web3Client.contract.filters.AnniversaryUpdated(),
       (e) => {
-        finishFetch();
+        if (finishFetch()) {
+          toast({
+            title: '更新しました！',
+            status: 'success',
+            duration: 9000,
+            isClosable: true,
+          });
+        }
         console.log('anniversary updated', e);
         web3Client.contract.anniversary(tokenId).then(setAnniversary);
       }
     );
-  }, [web3Client, month, day, setAnniversary, finishFetch]);
+  }, [web3Client, month, day, setAnniversary, finishFetch, toast]);
 
   return {
     value: anniversary,
@@ -60,7 +79,13 @@ export function useAnniversary(
       if (web3Client == null) return;
       startFetch();
       const tokenId = tokenIdFromMonthDay(month, day);
-      web3Client?.contract.setAnniversary(tokenId, data.name, data.description);
+      web3Client?.contract.setAnniversary(
+        tokenId,
+        data.name,
+        data.description,
+        data.author,
+        data.authorUrl
+      );
     },
   };
 }

@@ -1,5 +1,6 @@
 import { LinkIcon } from '@chakra-ui/icons';
 import {
+  Link,
   Avatar,
   Badge,
   Box,
@@ -23,6 +24,8 @@ const DayTemplate: React.FC<{
   anniversary?: {
     name: string;
     description: string;
+    author: string;
+    authorUrl: string;
   };
   footer?: ReactNode;
 }> = ({ year, month, day, anniversary, footer }) => {
@@ -51,6 +54,8 @@ const DayTemplate: React.FC<{
             fontSize="4xl"
             fontWeight="bold"
             borderRadius="full"
+            display="flex"
+            alignItems="center"
           >
             {weekday}曜日
           </Badge>
@@ -61,8 +66,19 @@ const DayTemplate: React.FC<{
         <Stack padding="5">
           <Text>{anniversary?.description}</Text>
           <Flex justifyContent="flex-end" alignItems="center" gap="2">
-            <Text>@hoge</Text>
-            <Avatar size="sm" />
+            {anniversary?.author && (
+              <Link
+                href={anniversary.authorUrl || '#'}
+                target="_blank"
+                rel="noreferrer"
+                display="inline-flex"
+                alignItems="center"
+                gap="2"
+              >
+                <Text>{anniversary.author}</Text>
+                <Avatar size="sm" />
+              </Link>
+            )}
           </Flex>
           <Flex justifyContent="flex-end" alignItems="center" gap="2">
             {footer}
@@ -80,6 +96,8 @@ export const Day: React.FC<{
   anniversary: {
     name: string;
     description: string;
+    author: string;
+    authorUrl: string;
   };
 }> = ({ year, month, day, anniversary }) => {
   const { web3Client, connect } = useWeb3Context();

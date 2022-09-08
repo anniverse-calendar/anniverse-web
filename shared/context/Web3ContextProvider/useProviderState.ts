@@ -17,8 +17,8 @@ const initialState: State = {
 
 export type Provider = State & {
   connect(): Promise<void>;
-  startFetch(): void;
-  finishFetch(): void;
+  startFetch(): boolean;
+  finishFetch(): boolean;
 };
 
 export const useProviderState = (): Provider => {
@@ -36,10 +36,14 @@ export const useProviderState = (): Provider => {
       }
     },
     startFetch() {
+      const hasFetched = state.fetching;
       setState((old) => ({ ...old, fetching: true }));
+      return hasFetched;
     },
     finishFetch() {
+      const hasFetched = state.fetching;
       setState((old) => ({ ...old, fetching: false }));
+      return hasFetched;
     },
   };
 };
@@ -47,6 +51,10 @@ export const useProviderState = (): Provider => {
 export const Web3Context = createContext<Provider>({
   ...initialState,
   async connect() {},
-  startFetch() {},
-  finishFetch() {},
+  startFetch() {
+    return false;
+  },
+  finishFetch() {
+    return false;
+  },
 });

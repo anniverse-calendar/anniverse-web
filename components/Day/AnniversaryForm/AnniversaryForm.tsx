@@ -12,6 +12,7 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
+  Stack,
   Textarea,
   useDisclosure,
 } from '@chakra-ui/react';
@@ -20,6 +21,8 @@ import { useState } from 'react';
 type FormData = {
   name: string;
   description: string;
+  author: string;
+  authorUrl: string;
 };
 
 type AnniversaryFormProps = {
@@ -35,12 +38,12 @@ export const AnniversaryFormModal: React.FC<AnniversaryFormProps> = ({
 }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [formData, setFormData] = useState<FormData>(
-    defaultValues ?? { name: '', description: '' }
+    defaultValues ?? { name: '', description: '', author: '', authorUrl: '' }
   );
   return (
     <>
       <Button disabled={disabled} leftIcon={<EditIcon />} onClick={onOpen}>
-        記念日を登録する
+        記念日を制定する
       </Button>
 
       <Modal isOpen={isOpen} onClose={onClose}>
@@ -53,29 +56,53 @@ export const AnniversaryFormModal: React.FC<AnniversaryFormProps> = ({
               onClose();
             }}
           >
-            <ModalHeader>記念日を登録する</ModalHeader>
+            <ModalHeader>記念日を制定する</ModalHeader>
             <ModalCloseButton />
             <ModalBody>
-              <FormControl>
-                <FormLabel>記念日</FormLabel>
-                <Input
-                  onChange={(e) =>
-                    setFormData({ ...formData, name: e.target.value })
-                  }
-                />
-                <FormHelperText>
-                  「〇〇の日」「クリスマス」など記念日の名前を登録します
-                </FormHelperText>
-              </FormControl>
-              <FormControl mt={5}>
-                <FormLabel>説明</FormLabel>
-                <Textarea
-                  onChange={(e) =>
-                    setFormData({ ...formData, description: e.target.value })
-                  }
-                />
-                <FormHelperText>記念日の説明</FormHelperText>
-              </FormControl>
+              <Stack gap="3">
+                <FormControl>
+                  <FormLabel>記念日</FormLabel>
+                  <Input
+                    onChange={(e) =>
+                      setFormData({ ...formData, name: e.target.value })
+                    }
+                  />
+                  <FormHelperText>
+                    「〇〇の日」「クリスマス」など記念日の名前を登録します
+                  </FormHelperText>
+                </FormControl>
+                <FormControl mt={5}>
+                  <FormLabel>説明</FormLabel>
+                  <Textarea
+                    onChange={(e) =>
+                      setFormData({ ...formData, description: e.target.value })
+                    }
+                  />
+                  <FormHelperText>記念日の説明</FormHelperText>
+                </FormControl>
+                <FormControl>
+                  <FormLabel>祝日制定者の名前</FormLabel>
+                  <Input
+                    onChange={(e) =>
+                      setFormData({ ...formData, author: e.target.value })
+                    }
+                  />
+                  <FormHelperText>
+                    「@shwld」など制定した人の名前を入力すると、カレンダーに表示されます
+                  </FormHelperText>
+                </FormControl>
+                <FormControl>
+                  <FormLabel>祝日制定者のURL</FormLabel>
+                  <Input
+                    onChange={(e) =>
+                      setFormData({ ...formData, authorUrl: e.target.value })
+                    }
+                  />
+                  <FormHelperText>
+                    「https://twitter.com/shwld」など制定者のプロフィールへのリンクを設定できます
+                  </FormHelperText>
+                </FormControl>
+              </Stack>
             </ModalBody>
 
             <ModalFooter>

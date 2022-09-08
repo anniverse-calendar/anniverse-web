@@ -31,6 +31,16 @@ const _abi = [
             name: "description",
             type: "string",
           },
+          {
+            internalType: "string",
+            name: "author",
+            type: "string",
+          },
+          {
+            internalType: "string",
+            name: "authorUrl",
+            type: "string",
+          },
         ],
         indexed: false,
         internalType: "struct Anniversable._Anniversary",
@@ -136,6 +146,16 @@ const _abi = [
           {
             internalType: "string",
             name: "description",
+            type: "string",
+          },
+          {
+            internalType: "string",
+            name: "author",
+            type: "string",
+          },
+          {
+            internalType: "string",
+            name: "authorUrl",
             type: "string",
           },
           {
@@ -330,6 +350,16 @@ const _abi = [
       {
         internalType: "string",
         name: "_description",
+        type: "string",
+      },
+      {
+        internalType: "string",
+        name: "_author",
+        type: "string",
+      },
+      {
+        internalType: "string",
+        name: "_authorUrl",
         type: "string",
       },
     ],
