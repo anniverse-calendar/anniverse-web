@@ -6,18 +6,25 @@ import {
   Grid,
   GridItem,
   IconButton,
+  Link,
 } from '@chakra-ui/react';
 import Head from 'next/head';
 import { FC } from 'react';
 import { AppLayout } from '../../shared/AppLayout';
 import { WEEK_DAYS } from '../../../lib/date/constants';
-import type { AnniversariesPropType } from '../../../lib/types/AnniversariesPropType';
+import type {
+  AnniversariesPropType,
+  Anniversary,
+} from '../../../lib/types/AnniversariesPropType';
 import { useCalendar } from '../../../lib/date/useCalendar';
 import { useCalendarRouter } from '../../../lib/date/useCalendarRouter';
+import NextLink from 'next/link';
+import type { Dayjs } from 'dayjs';
 
 export const MonthCalendar: FC<AnniversariesPropType> = ({ calendar }) => {
   const { params, goNextMonth, goPrevMonth } = useCalendarRouter();
   const { days } = useCalendar(params.year, params.month);
+  const getAnniversary = useAnniversary(calendar, params.month);
   return (
     <>
       <Head>
@@ -81,20 +88,31 @@ export const MonthCalendar: FC<AnniversariesPropType> = ({ calendar }) => {
             <GridItem
               key={i}
               display="flex"
-              justifyContent="center"
-              alignItems="flex-start"
-              padding="3"
+              flexDirection="column"
+              justifyContent="space-between"
+              alignItems="center"
               borderLeft="1px"
               borderBottom="1px"
               borderColor="gray.100"
-              {...(day == null || calendar[params.month][day.date()]?.isEmpty
-                ? {}
-                : {
-                    bgColor: 'blue.500',
-                    color: 'white',
-                  })}
             >
-              {day?.date()}
+              {day != null && (
+                <NextLink href={`/day/${day.format('YYYYMMDD')}`}>
+                  <Link
+                    padding="3"
+                    borderRadius="full"
+                    {...(day == null ||
+                    calendar[params.month][day.date()]?.isEmpty
+                      ? {}
+                      : {
+                          bgColor: 'blue.500',
+                          color: 'white',
+                        })}
+                  >
+                    {day.date()}
+                  </Link>
+                </NextLink>
+              )}
+              <Text marginBottom={3}>{getAnniversary(day)?.name}</Text>
             </GridItem>
           ))}
         </Grid>
@@ -102,3 +120,14 @@ export const MonthCalendar: FC<AnniversariesPropType> = ({ calendar }) => {
     </>
   );
 };
+
+/**
+ * PRIVATE
+ */
+const useAnniversary =
+  (anniversaries: AnniversariesPropType['calendar'], month: number) =>
+  (day: Dayjs | undefined): Anniversary | undefined => {
+    if (day == null) return;
+    if (anniversaries[month][day.date()].isEmpty) return;
+    return anniversaries[month][day.date()];
+  };
