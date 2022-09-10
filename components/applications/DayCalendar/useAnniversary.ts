@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useWeb3Context } from '../../shared/context/useWeb3Context';
+import { useWeb3Context } from '../../../lib/web3Client';
 import { useToast } from '@chakra-ui/react';
 
 export type Anniversary = {

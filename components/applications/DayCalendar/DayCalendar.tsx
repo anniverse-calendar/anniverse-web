@@ -12,12 +12,13 @@ import {
 } from '@chakra-ui/react';
 import dayjs from 'dayjs';
 import { ReactNode, useMemo } from 'react';
-import { WEEK_DAYS } from '../../shared/constants';
-import { useWeb3Context } from '../../shared/context/useWeb3Context';
+import { WEEK_DAYS } from '../../../lib/date/constants';
+import { useWeb3Context } from '../../../lib/web3Client/useWeb3Context';
+import { formatWareki } from '../../../lib/date/formatWareki';
 import { AnniversaryFormModal } from './AnniversaryForm';
 import { useAnniversary } from './useAnniversary';
 
-const DayTemplate: React.FC<{
+const Day: React.FC<{
   year: number;
   month: number;
   day: number;
@@ -33,6 +34,10 @@ const DayTemplate: React.FC<{
     const date = dayjs(new Date(year, month, day));
     return WEEK_DAYS[date.day()];
   }, [year, month, day]);
+  const wareki = useMemo(
+    () => formatWareki(new Date(year, month - 1, 1)),
+    [year, month]
+  );
   return (
     <Stack w="full" h="100vh" justifyContent="center" alignItems="center">
       <Flex justifyContent="space-between" w="full" maxW="500px">
@@ -43,7 +48,7 @@ const DayTemplate: React.FC<{
           {month}月
         </Text>
         <Text padding="5" fontSize="4xl">
-          令和1年
+          {wareki}
         </Text>
       </Flex>
       <Heading fontSize="300px">{day}</Heading>
@@ -89,7 +94,7 @@ const DayTemplate: React.FC<{
   );
 };
 
-export const Day: React.FC<{
+export const DayCalendar: React.FC<{
   year: number;
   month: number;
   day: number;
@@ -108,7 +113,7 @@ export const Day: React.FC<{
   );
 
   return (
-    <DayTemplate
+    <Day
       year={year}
       month={month}
       day={day}

@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 import { useRouter } from 'next/router';
 import { useMemo } from 'react';
-import { parseYYYYMMDD } from './functions/parseYYYYMMDD';
+import { useParamsYMD } from '../date/useParamsYMD';
 
 function date(year: number, month: number, day: number) {
   return dayjs(new Date(year, month - 1, day));
@@ -19,11 +19,9 @@ export function useCalendarRouter(): {
   goPrevMonth(): void;
 } {
   const router = useRouter();
-  const { yyyymm, yyyymmdd } = router.query;
-  const param = yyyymm ? `${yyyymm}01` : yyyymmdd;
+  const { year, month, day } = useParamsYMD();
 
   return useMemo(() => {
-    const { year, month, day } = parseYYYYMMDD(param);
     return {
       params: {
         year,
@@ -32,24 +30,26 @@ export function useCalendarRouter(): {
       },
       goNextYear() {
         router.push(
-          `/year/${date(year, month, day).add(1, 'year').format('YYYYMM')}`
+          `/year?ym=${date(year, month, day).add(1, 'year').format('YYYYMM')}`
         );
       },
       goPrevYear() {
         router.push(
-          `/year/${date(year, month, day).add(-1, 'year').format('YYYYMM')}`
+          `/year?ym=${date(year, month, day).add(-1, 'year').format('YYYYMM')}`
         );
       },
       goNextMonth() {
         router.push(
-          `/month/${date(year, month, day).add(1, 'month').format('YYYYMM')}`
+          `/month?ym=${date(year, month, day).add(1, 'month').format('YYYYMM')}`
         );
       },
       goPrevMonth() {
         router.push(
-          `/month/${date(year, month, day).add(-1, 'month').format('YYYYMM')}`
+          `/month?ym=${date(year, month, day)
+            .add(-1, 'month')
+            .format('YYYYMM')}`
         );
       },
     };
-  }, [param, router]);
+  }, [year, month, day, router]);
 }

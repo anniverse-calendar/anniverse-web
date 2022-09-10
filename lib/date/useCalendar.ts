@@ -1,6 +1,6 @@
 import { Dayjs } from 'dayjs';
 import { useMemo } from 'react';
-import { allDaysOfMonth } from './functions/allDaysOfMonth';
+import { allDaysOfMonth } from './allDaysOfMonth';
 
 export const useCalendar = (
   year: number,

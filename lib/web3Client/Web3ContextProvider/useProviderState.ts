@@ -1,8 +1,8 @@
 import {
   web3Provider,
   createWeb3Client,
-} from '../../functions/createWeb3Client';
-import type { Client } from '../../functions/createWeb3Client';
+} from '../../web3Client/createWeb3Client';
+import type { Client } from '../../web3Client/createWeb3Client';
 import { createContext, useState } from 'react';
 
 type State = {

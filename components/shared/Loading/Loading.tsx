@@ -7,8 +7,8 @@ import {
   Progress,
 } from '@chakra-ui/react';
 import { FC, useRef } from 'react';
-import { useWeb3Context } from '../../shared/context/useWeb3Context';
-import { EthereumIcon } from '../icons/EthereumIcon';
+import { useWeb3Context } from '../../../lib/web3Client';
+import { EthereumIcon } from '../../icons/EthereumIcon';
 
 export const Loading: FC = () => {
   const { fetching } = useWeb3Context();
