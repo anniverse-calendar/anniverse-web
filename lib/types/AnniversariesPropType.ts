@@ -8,8 +8,8 @@ export type Anniversary = {
 
 export type AnniversariesPropType = {
   calendar: {
-    [year: number]: {
-      [month: number]: Anniversary;
+    [month: number]: {
+      [day: number]: Anniversary;
     };
   };
 };
