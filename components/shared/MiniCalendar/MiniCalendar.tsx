@@ -87,6 +87,6 @@ const useAnniversary =
   (anniversaries: AnniversariesPropType['calendar'], month: number) =>
   (day: Dayjs | undefined): Anniversary | undefined => {
     if (day == null) return;
-    if (anniversaries[month][day.date()].isEmpty) return;
+    if (anniversaries[month]?.[day.date()]?.isEmpty) return;
     return anniversaries[month][day.date()];
   };

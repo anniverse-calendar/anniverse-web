@@ -23,6 +23,13 @@ const Day: NextPage<{
   day: number;
   anniversary: Anniversable.AnniversaryStructOutput;
 }> = (params) => {
+  const today = useMemo(
+    () =>
+      dayjs(new Date(params.year, params.month - 1, params.day)).format(
+        'YYYYMMDD'
+      ),
+    [params.year, params.month, params.day]
+  );
   const prevDay = useMemo(
     () =>
       dayjs(new Date(params.year, params.month - 1, params.day))
@@ -37,17 +44,40 @@ const Day: NextPage<{
         .format('YYYYMMDD'),
     [params.year, params.month, params.day]
   );
+  const title = `${params.year}月${params.month}月${params.day}日${params.anniversary.name}`;
+  const description = `${params.anniversary.name} ${params.anniversary.description}`;
+  const ogImageUrl = `${
+    process.env.NEXT_PUBLIC_HTTP_HOST ?? 'http://localhost:3000'
+  }/api/day/${today}/ogp.png`;
   return (
     <>
       <Head>
-        <title>
-          {params.year}月{params.month}月{params.day}日{' '}
-          {params.anniversary.name}
-        </title>
+        <title>{title}</title>
+        <meta name="description" content={description} />
+        <meta property="og:image" content={ogImageUrl} />
         <meta
-          name="description"
-          content={`${params.anniversary.name} ${params.anniversary.description}`}
+          key="meta-twitter:card"
+          name="twitter:card"
+          content="summary_large_image"
         />
+        <meta
+          key="meta-twitter:site"
+          name="twitter:site"
+          content={process.env.NEXT_PUBLIC_HTTP_HOST ?? 'http://localhost:3000'}
+        />
+        <meta
+          key="meta-twitter:image"
+          name="twitter:image"
+          content={ogImageUrl}
+        />
+        <meta key="meta-og:title" property="og:title" content={title} />
+        <meta
+          key="meta-og:description"
+          property="og:description"
+          content={description}
+        />
+        <meta key="meta-og:image" property="og:image" content={ogImageUrl} />
+        <meta key="meta-og:image:alt" property="og:image:alt" content={title} />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Stack>

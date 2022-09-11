@@ -5,15 +5,16 @@ import {
   Box,
   Flex,
   Heading,
-  Stack,
   Text,
+  Stack,
 } from '@chakra-ui/react';
 import dayjs from 'dayjs';
 import { ReactNode, useMemo } from 'react';
 import { WEEK_DAYS } from '../../../lib/date/constants';
 import { formatWareki } from '../../../lib/date/formatWareki';
+import { MiniCalendar } from '../MiniCalendar';
 
-export const Day: React.FC<{
+export const DayOGP: React.FC<{
   year: number;
   month: number;
   day: number;
@@ -24,8 +25,7 @@ export const Day: React.FC<{
     authorUrl: string;
     isEmpty: boolean;
   };
-  footer?: ReactNode;
-}> = ({ year, month, day, anniversary, footer }) => {
+}> = ({ year, month, day, anniversary }) => {
   const weekday = useMemo(() => {
     const date = dayjs(new Date(year, month, day));
     return WEEK_DAYS[date.day()];
@@ -35,15 +35,17 @@ export const Day: React.FC<{
     [year, month]
   );
   return (
-    <Stack
+    <Flex
       w="full"
-      padding="5"
+      h="100vh"
       justifyContent="center"
       alignItems="center"
       gap="3"
+      borderWidth={3}
+      borderColor="red.300"
     >
-      <Box maxW="500px" w="full">
-        <Flex justifyContent="space-between" w="full">
+      <Box flex={3}>
+        <Flex justifyContent="center" w="full" gap="5">
           <Text padding="5" fontSize="4xl">
             {year}年
           </Text>
@@ -57,9 +59,7 @@ export const Day: React.FC<{
         <Heading fontSize="300px" w="full" textAlign="center">
           {day}
         </Heading>
-      </Box>
-      <Box maxW="500px" w="full">
-        <Flex justifyContent="space-between" w="full">
+        <Flex justifyContent="center" w="full" gap="5">
           <Badge
             padding="5"
             fontSize="4xl"
@@ -74,28 +74,44 @@ export const Day: React.FC<{
             {anniversary?.name}
           </Text>
         </Flex>
-        <Stack padding="5">
-          <Text>{anniversary?.description}</Text>
-          <Flex justifyContent="flex-end" alignItems="center" gap="2">
-            {anniversary?.author && (
-              <Link
-                href={anniversary.authorUrl || '#'}
-                target="_blank"
-                rel="noreferrer"
-                display="inline-flex"
-                alignItems="center"
-                gap="2"
-              >
-                <Text>{anniversary.author}</Text>
-                <Avatar size="sm" />
-              </Link>
-            )}
-          </Flex>
-          <Flex justifyContent="flex-end" alignItems="center" gap="2">
-            {footer}
-          </Flex>
-        </Stack>
       </Box>
-    </Stack>
+      <Stack
+        flex={1}
+        alignSelf="stretch"
+        alignItems="flex-end"
+        justifyContent="space-between"
+        marginX="20"
+        marginY="14"
+      >
+        <Stack alignItems="flex-end">
+          <Text marginRight="2">
+            {year}年{month}月
+          </Text>
+          <MiniCalendar
+            year={year}
+            month={month}
+            anniversaries={
+              anniversary != null ? { [month]: { [day]: anniversary } } : {}
+            }
+          />
+        </Stack>
+        <Stack alignItems="flex-end">
+          <Text>{anniversary?.description}</Text>
+          {anniversary?.author && (
+            <Link
+              href={anniversary.authorUrl || '#'}
+              target="_blank"
+              rel="noreferrer"
+              display="inline-flex"
+              alignItems="center"
+              gap="2"
+            >
+              <Text>{anniversary.author}</Text>
+              <Avatar size="sm" />
+            </Link>
+          )}
+        </Stack>
+      </Stack>
+    </Flex>
   );
 };
