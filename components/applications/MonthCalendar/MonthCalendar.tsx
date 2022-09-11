@@ -6,7 +6,7 @@ import {
   Grid,
   GridItem,
   IconButton,
-  Link,
+  Button,
 } from '@chakra-ui/react';
 import Head from 'next/head';
 import { FC } from 'react';
@@ -20,6 +20,7 @@ import { useCalendar } from '../../../lib/date/useCalendar';
 import { useCalendarRouter } from '../../../lib/date/useCalendarRouter';
 import NextLink from 'next/link';
 import type { Dayjs } from 'dayjs';
+import { DayNumber } from '../../shared/Day/DayNumber';
 
 export const MonthCalendar: FC<AnniversariesPropType> = ({ calendar }) => {
   const { params, goNextMonth, goPrevMonth } = useCalendarRouter();
@@ -94,25 +95,22 @@ export const MonthCalendar: FC<AnniversariesPropType> = ({ calendar }) => {
               borderLeft="1px"
               borderBottom="1px"
               borderColor="gray.100"
+              padding="3"
             >
               {day != null && (
-                <NextLink href={`/day/${day.format('YYYYMMDD')}`}>
-                  <Link
-                    padding="3"
-                    borderRadius="full"
-                    {...(day == null ||
-                    calendar[params.month][day.date()]?.isEmpty
-                      ? {}
-                      : {
-                          bgColor: 'blue.500',
-                          color: 'white',
-                        })}
-                  >
-                    {day.date()}
-                  </Link>
-                </NextLink>
+                <DayNumber
+                  year={params.year}
+                  month={params.month}
+                  day={day.date()}
+                  anniversary={getAnniversary(day)}
+                  footer={
+                    <NextLink href={`/day/${day.format('YYYYMMDD')}`}>
+                      <Button>全画面で開く</Button>
+                    </NextLink>
+                  }
+                />
               )}
-              <Text marginBottom={3}>{getAnniversary(day)?.name}</Text>
+              <Text>{getAnniversary(day)?.name}</Text>
             </GridItem>
           ))}
         </Grid>

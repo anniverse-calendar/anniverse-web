@@ -14,7 +14,7 @@ export async function fetchAllAnniversaries(
         client.contract.anniversary(tokenId).then((anniversary) => {
           calendar[month][day] = {
             name: anniversary.name,
-            description: anniversary.name,
+            description: anniversary.description,
             author: anniversary.author,
             authorUrl: anniversary.authorUrl,
             isEmpty: anniversary.isEmpty,

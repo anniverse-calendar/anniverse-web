@@ -1,4 +1,4 @@
-import { Grid, GridItem, Text } from '@chakra-ui/react';
+import { Button, Grid, GridItem, Text } from '@chakra-ui/react';
 import { WEEK_DAYS } from '../../../lib/date/constants';
 import { useCalendar } from '../../../lib/date/useCalendar';
 import {
@@ -8,6 +8,8 @@ import {
 import { Tooltip } from '@chakra-ui/react';
 import type { Dayjs } from 'dayjs';
 import Router from 'next/router';
+import { DayNumber } from '../Day/DayNumber';
+import NextLink from 'next/link';
 
 type CalendarProps = {
   year: number;
@@ -57,9 +59,21 @@ export const MiniCalendar: React.FC<CalendarProps> = ({
               }
             : {})}
         >
-          <Tooltip hasArrow label={getAnniversary(day)?.name ?? undefined}>
-            <Text fontSize="sm">{day?.date()}</Text>
-          </Tooltip>
+          {day != null && (
+            <Tooltip hasArrow label={getAnniversary(day)?.name ?? undefined}>
+              <DayNumber
+                year={year}
+                month={month}
+                day={day.date()}
+                anniversary={getAnniversary(day)}
+                footer={
+                  <NextLink href={`/day/${day.format('YYYYMMDD')}`}>
+                    <Button>全画面で開く</Button>
+                  </NextLink>
+                }
+              />
+            </Tooltip>
+          )}
         </GridItem>
       ))}
     </Grid>
