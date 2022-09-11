@@ -4,7 +4,7 @@ import * as playwright from 'playwright-aws-lambda';
 import { FC, ReactNode } from 'react';
 import { parseYYYYMMDD } from '../../../../lib/date/parseYYYYMMDD';
 import { createWeb3Client, jsonRpcProvider } from '../../../../lib/web3Client';
-import { DayOGP } from '../../../../components/shared/Day';
+import { DayHorizontal } from '../../../../components/shared/Day';
 import { ChakraProvider, extendTheme } from '@chakra-ui/react';
 import '@fontsource/rocknroll-one/400.css';
 
@@ -31,7 +31,12 @@ export default async function handler(
 
   const markup = ReactDOM.renderToStaticMarkup(
     <Content>
-      <DayOGP year={year} month={month} day={day} anniversary={anniversary} />
+      <DayHorizontal
+        year={year}
+        month={month}
+        day={day}
+        anniversary={anniversary}
+      />
     </Content>
   );
   const html = `<!doctype html>${markup}`;

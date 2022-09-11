@@ -9,12 +9,12 @@ import {
   Stack,
 } from '@chakra-ui/react';
 import dayjs from 'dayjs';
-import { ReactNode, useMemo } from 'react';
+import { useMemo } from 'react';
 import { WEEK_DAYS } from '../../../lib/date/constants';
 import { formatWareki } from '../../../lib/date/formatWareki';
 import { MiniCalendar } from '../MiniCalendar';
 
-export const DayOGP: React.FC<{
+export const DayHorizontal: React.FC<{
   year: number;
   month: number;
   day: number;

@@ -1,3 +1,3 @@
 export * from './Day';
-export * from './DayOGP';
+export * from './DayHorizontal';
 export * from './DayNumber';
