@@ -14,6 +14,7 @@ export const DayCalendar: React.FC<{
     description: string;
     author: string;
     authorUrl: string;
+    isEmpty: boolean;
   };
 }> = ({ year, month, day, anniversary }) => {
   const { web3Client, connect } = useWeb3Context();

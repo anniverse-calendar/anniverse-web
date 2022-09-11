@@ -4,6 +4,7 @@ import { ChakraProvider } from '@chakra-ui/react';
 import '@fontsource/rocknroll-one/400.css';
 import { extendTheme } from '@chakra-ui/react';
 import { Web3ContextProvider } from '../lib/web3Client/Web3ContextProvider';
+import { Loading } from '../components/shared/Loading';
 
 const theme = extendTheme({
   fonts: {
@@ -16,6 +17,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <ChakraProvider theme={theme}>
       <Web3ContextProvider>
+        <Loading />
         <Component {...pageProps} />
       </Web3ContextProvider>
     </ChakraProvider>

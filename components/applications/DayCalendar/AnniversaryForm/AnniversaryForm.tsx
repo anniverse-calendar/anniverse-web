@@ -63,6 +63,7 @@ export const AnniversaryFormModal: React.FC<AnniversaryFormProps> = ({
                 <FormControl>
                   <FormLabel>記念日</FormLabel>
                   <Input
+                    value={formData.name}
                     onChange={(e) =>
                       setFormData({ ...formData, name: e.target.value })
                     }
@@ -74,6 +75,7 @@ export const AnniversaryFormModal: React.FC<AnniversaryFormProps> = ({
                 <FormControl mt={5}>
                   <FormLabel>説明</FormLabel>
                   <Textarea
+                    value={formData.description}
                     onChange={(e) =>
                       setFormData({ ...formData, description: e.target.value })
                     }
@@ -83,6 +85,7 @@ export const AnniversaryFormModal: React.FC<AnniversaryFormProps> = ({
                 <FormControl>
                   <FormLabel>祝日制定者の名前</FormLabel>
                   <Input
+                    value={formData.author}
                     onChange={(e) =>
                       setFormData({ ...formData, author: e.target.value })
                     }
@@ -94,6 +97,7 @@ export const AnniversaryFormModal: React.FC<AnniversaryFormProps> = ({
                 <FormControl>
                   <FormLabel>祝日制定者のURL</FormLabel>
                   <Input
+                    value={formData.authorUrl}
                     onChange={(e) =>
                       setFormData({ ...formData, authorUrl: e.target.value })
                     }

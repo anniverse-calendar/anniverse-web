@@ -7,6 +7,7 @@ export type Anniversary = {
   description: string;
   author: string;
   authorUrl: string;
+  isEmpty: boolean;
 };
 
 export function useAnniversary(
@@ -41,7 +42,7 @@ export function useAnniversary(
         });
       }
       finishFetch();
-      console.log('transfer', e);
+      // console.log('transfer', e);
       web3Client.contract.hasMinted(month, day).then(setIsMinted);
       web3Client.contract.isMinter(month, day).then(setCanEdit);
     });
@@ -55,9 +56,18 @@ export function useAnniversary(
             duration: 9000,
             isClosable: true,
           });
+          fetch(`/api/revalidate`, {
+            method: 'POST',
+            body: JSON.stringify({
+              month,
+              day,
+            }),
+          });
         }
-        console.log('anniversary updated', e);
+        // console.log('anniversary updated', e);
         web3Client.contract.anniversary(tokenId).then(setAnniversary);
+        web3Client.contract.hasMinted(month, day).then(setIsMinted);
+        web3Client.contract.isMinter(month, day).then(setCanEdit);
       }
     );
   }, [web3Client, month, day, setAnniversary, finishFetch, toast]);

@@ -1,6 +1,5 @@
 import { FC, ReactNode } from 'react';
 import { Text, Flex, Radio, RadioGroup, Stack, Box } from '@chakra-ui/react';
-import { Loading } from '../Loading';
 import { StatefulMiniCalendar } from '../MiniCalendar';
 import { useRouter } from 'next/router';
 import dayjs from 'dayjs';
@@ -15,7 +14,6 @@ export const AppLayout: FC<{ children: ReactNode } & AnniversariesPropType> = ({
   const { year, month } = useParamsYMD();
   return (
     <Flex alignItems="stretch">
-      <Loading />
       <Stack
         borderRight="1px"
         borderColor="gray.100"
