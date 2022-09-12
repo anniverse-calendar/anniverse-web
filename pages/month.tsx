@@ -8,10 +8,10 @@ import { fetchAllAnniversaries } from '../lib/anniverse/fetchAllAnniversaries';
 import type { AnniversariesPropType } from '../lib/types/AnniversariesPropType';
 import dynamic from 'next/dynamic';
 
-const MonthCalendar = dynamic(
+const MonthCalendar = dynamic<AnniversariesPropType>(
   () =>
     import('../components/applications/MonthCalendar').then(
-      (c) => c.MonthCalendar
+      (mod) => mod.MonthCalendar
     ),
   { ssr: false }
 );

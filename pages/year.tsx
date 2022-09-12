@@ -8,7 +8,7 @@ import {
 import { fetchAllAnniversaries } from '../lib/anniverse/fetchAllAnniversaries';
 import dynamic from 'next/dynamic';
 
-const YearCalendar = dynamic(
+const YearCalendar = dynamic<AnniversariesPropType>(
   () =>
     import('../components/applications/YearCalendar').then(
       (c) => c.YearCalendar

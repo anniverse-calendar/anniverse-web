@@ -5,6 +5,7 @@ import '@fontsource/rocknroll-one/400.css';
 import { extendTheme } from '@chakra-ui/react';
 import { Web3ContextProvider } from '../lib/web3Client/Web3ContextProvider';
 import { Loading } from '../components/shared/Loading';
+import { Suspense } from 'react';
 
 const theme = extendTheme({
   fonts: {
@@ -18,7 +19,9 @@ function MyApp({ Component, pageProps }: AppProps) {
     <ChakraProvider theme={theme}>
       <Web3ContextProvider>
         <Loading />
-        <Component {...pageProps} />
+        <Suspense fallback={`Loading...`}>
+          <Component {...pageProps} />
+        </Suspense>
       </Web3ContextProvider>
     </ChakraProvider>
   );
