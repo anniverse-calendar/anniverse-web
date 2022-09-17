@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { createWeb3Client, jsonRpcProvider } from '../../lib/web3Client';
+import { createWeb3Client } from '../../lib/web3Client';
 import ical from 'ical-generator';
 import { fetchAllAnniversaries } from '../../lib/anniverse/fetchAllAnniversaries';
 import dayjs from 'dayjs';
@@ -10,7 +10,7 @@ export default async function handler(
   res: NextApiResponse<{}>
 ) {
   const calendar = ical({ name: 'Anniverse' });
-  const client = createWeb3Client(jsonRpcProvider());
+  const client = createWeb3Client();
   const anniversaries = await fetchAllAnniversaries(client);
   const createEvent = (
     year: number,

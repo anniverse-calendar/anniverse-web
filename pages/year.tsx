@@ -1,10 +1,7 @@
 import type { GetStaticProps, NextPage } from 'next';
 import Head from 'next/head';
 import type { AnniversariesPropType } from '../lib/types/AnniversariesPropType';
-import {
-  createWeb3Client,
-  jsonRpcProvider,
-} from '../lib/web3Client/createWeb3Client';
+import { createWeb3Client } from '../lib/web3Client/createWeb3Client';
 import { fetchAllAnniversaries } from '../lib/anniverse/fetchAllAnniversaries';
 import dynamic from 'next/dynamic';
 
@@ -32,7 +29,7 @@ const Year: NextPage<Props> = ({ calendar }) => {
 };
 
 export const getStaticProps: GetStaticProps = async () => {
-  const client = createWeb3Client(jsonRpcProvider());
+  const client = createWeb3Client();
   const anniversaries = await fetchAllAnniversaries(client);
   return {
     props: {

@@ -1,7 +1,4 @@
-import {
-  web3Provider,
-  createWeb3Client,
-} from '../../web3Client/createWeb3Client';
+import { web3Modal, createWeb3Client } from '../../web3Client/createWeb3Client';
 import type { Client } from '../../web3Client/createWeb3Client';
 import { createContext, useState } from 'react';
 
@@ -28,7 +25,7 @@ export const useProviderState = (): Provider => {
     ...state,
     async connect() {
       if (state.web3Client === undefined) {
-        const web3Client = createWeb3Client(await web3Provider());
+        const web3Client = createWeb3Client(await web3Modal());
         setState((old) => ({
           ...old,
           web3Client,

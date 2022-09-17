@@ -9,10 +9,7 @@ import type { GetServerSideProps, NextPage } from 'next';
 import Head from 'next/head';
 import { DayCalendar } from '../../components/applications/DayCalendar';
 import type { Anniversable } from '../../generated/typechain-types';
-import {
-  createWeb3Client,
-  jsonRpcProvider,
-} from '../../lib/web3Client/createWeb3Client';
+import { createWeb3Client } from '../../lib/web3Client/createWeb3Client';
 import { parseYYYYMMDD } from '../../lib/date/parseYYYYMMDD';
 import dayjs from 'dayjs';
 import { useMemo } from 'react';
@@ -114,7 +111,7 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
   const { ymd } = query;
   const { year, month, day } = parseYYYYMMDD(ymd);
   const tokenId = month * 100 + day;
-  const client = createWeb3Client(jsonRpcProvider());
+  const client = createWeb3Client();
   const anniversary = await client.contract.anniversary(tokenId);
   return {
     props: {

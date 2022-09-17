@@ -4,42 +4,42 @@ import type { AnniversaryToken } from '../../generated/typechain-types/contracts
 import Web3Modal from 'web3modal';
 
 export type Client = {
-  provider: ethers.providers.JsonRpcProvider | ethers.providers.Web3Provider;
   contract: AnniversaryToken;
 };
 
-const networkAddress =
-  process.env.NEXT_PUBLIC_ANNIVERSARY_TOKEN_NETWORK_ADDRESS ??
-  'http://localhost:8545';
-
-export async function web3Provider(): Promise<ethers.providers.Web3Provider> {
+export async function web3Modal(): Promise<ethers.Signer> {
   const web3Modal = new Web3Modal({
-    // network: 'localhost', // optional
     cacheProvider: true, // optional
     providerOptions: {}, // required
   });
   const instance = await web3Modal.connect();
   const provider = new ethers.providers.Web3Provider(instance);
-  return provider;
+  return provider.getSigner();
 }
 
-export function jsonRpcProvider(): ethers.providers.JsonRpcProvider {
-  const provider = new ethers.providers.JsonRpcProvider(networkAddress);
+export function getProvider(): ethers.providers.BaseProvider {
+  const network =
+    process.env.NEXT_PUBLIC_WEB3_NETWORK ?? 'http://localhost:8545';
+  const provider = ethers.providers.getDefaultProvider(network, {
+    alchemy: process.env.NEXT_PUBLIC_ALCHEMY_API_KEY,
+  });
   return provider;
 }
 
 export function createWeb3Client(
-  provider: ethers.providers.JsonRpcProvider | ethers.providers.Web3Provider
+  providerOrSigner?:
+    | ethers.providers.JsonRpcProvider
+    | ethers.providers.Web3Provider
+    | ethers.Signer
 ): Client {
   const { abi } = AnniversaryTokenJSON;
   const contract = new ethers.Contract(
     getTokenAddress(),
     abi,
-    provider.getSigner()
+    providerOrSigner ?? getProvider()
   ) as AnniversaryToken;
 
   return {
-    provider,
     contract,
   };
 }
