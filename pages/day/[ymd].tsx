@@ -79,7 +79,9 @@ const Day: NextPage<{
       </Head>
       <Stack>
         <Flex position="sticky" top="0" alignItems="center" gap="5">
-          <NextLink href="/month">
+          <NextLink
+            href={`/month?ym=${(params.year * 100 + params.month).toString()}`}
+          >
             <Link display="inline-flex" alignItems="center" gap="1">
               <ArrowBackIcon /> 月カレンダー
             </Link>
