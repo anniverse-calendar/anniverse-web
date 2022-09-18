@@ -5,7 +5,7 @@ import {
 } from '@chakra-ui/icons';
 import { Flex, Link, Stack } from '@chakra-ui/react';
 import NextLink from 'next/link';
-import type { GetServerSideProps, NextPage } from 'next';
+import type { GetStaticPaths, GetStaticProps, NextPage } from 'next';
 import Head from 'next/head';
 import { DayCalendar } from '../../components/applications/DayCalendar';
 import type { Anniversable } from '../../generated/typechain-types';
@@ -101,14 +101,20 @@ const Day: NextPage<{
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async ({ query }) => {
-  if (query?.ymd == null) {
+export const getStaticPaths: GetStaticPaths = () => {
+  return {
+    paths: [],
+    fallback: true,
+  };
+};
+export const getStaticProps: GetStaticProps = async (context) => {
+  if (context.params?.ymd == null) {
     return {
       notFound: true,
     };
   }
 
-  const { ymd } = query;
+  const { ymd } = context.params;
   const { year, month, day } = parseYYYYMMDD(ymd);
   const tokenId = month * 100 + day;
   const client = createWeb3Client();
@@ -126,6 +132,7 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
         isEmpty: anniversary.isEmpty,
       },
     },
+    revalidate: 60 * 60 * 24,
   };
 };
 

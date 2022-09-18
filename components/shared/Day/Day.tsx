@@ -25,7 +25,8 @@ export const Day: React.FC<{
     isEmpty: boolean;
   };
   footer?: ReactNode;
-}> = ({ year, month, day, anniversary, footer }) => {
+  size?: 'lg' | 'sm';
+}> = ({ year, month, day, anniversary, footer, size = 'lg' }) => {
   const weekday = useMemo(() => {
     const date = dayjs(new Date(year, month, day));
     return WEEK_DAYS[date.day()];
@@ -34,6 +35,10 @@ export const Day: React.FC<{
     () => formatWareki(new Date(year, month - 1, 1)),
     [year, month]
   );
+  const sizes =
+    size === 'lg'
+      ? { text: '4xl', containerW: '500px', dayFontSize: '300px' }
+      : { text: 'xl', containerW: '400px', dayFontSize: '180px' };
   return (
     <Stack
       w="full"
@@ -42,27 +47,27 @@ export const Day: React.FC<{
       alignItems="center"
       gap="3"
     >
-      <Box maxW="500px" w="full">
+      <Box maxW={sizes.containerW} w="full">
         <Flex justifyContent="space-between" w="full">
-          <Text padding="5" fontSize="4xl">
+          <Text padding="5" fontSize={sizes.text}>
             {year}年
           </Text>
-          <Text padding="5" fontSize="4xl">
+          <Text padding="5" fontSize={sizes.text}>
             {month}月
           </Text>
-          <Text padding="5" fontSize="4xl">
+          <Text padding="5" fontSize={sizes.text}>
             {wareki}
           </Text>
         </Flex>
-        <Heading fontSize="300px" w="full" textAlign="center">
+        <Heading fontSize={sizes.dayFontSize} w="full" textAlign="center">
           {day}
         </Heading>
       </Box>
-      <Box maxW="500px" w="full">
+      <Box maxW={sizes.containerW} w="full">
         <Flex justifyContent="space-between" w="full">
           <Badge
             padding="5"
-            fontSize="4xl"
+            fontSize={sizes.text}
             fontWeight="bold"
             borderRadius="full"
             display="flex"
@@ -70,7 +75,7 @@ export const Day: React.FC<{
           >
             {weekday}曜日
           </Badge>
-          <Text padding="5" fontSize="4xl">
+          <Text padding="5" fontSize={sizes.text}>
             {anniversary?.name}
           </Text>
         </Flex>
