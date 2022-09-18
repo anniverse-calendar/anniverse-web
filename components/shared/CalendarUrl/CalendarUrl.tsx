@@ -21,7 +21,7 @@ export const CalendarUrl: FC = () => {
       <FormLabel>カレンダーのURL</FormLabel>
       <Flex w="full">
         <Input value={value} isReadOnly placeholder="Welcome" />
-        <Button onClick={onCopy} ml={2}>
+        <Button onClick={onCopy} ml={2} w="20">
           {hasCopied ? 'しました' : 'コピー'}
         </Button>
       </Flex>

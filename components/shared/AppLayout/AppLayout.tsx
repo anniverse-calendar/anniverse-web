@@ -5,6 +5,7 @@ import { useRouter } from 'next/router';
 import dayjs from 'dayjs';
 import { useParamsYMD } from '../../../lib/date/useParamsYMD';
 import { AnniversariesPropType } from '../../../lib/types/AnniversariesPropType';
+import { CalendarUrl } from '../CalendarUrl';
 
 export const AppLayout: FC<{ children: ReactNode } & AnniversariesPropType> = ({
   children,
@@ -49,6 +50,10 @@ export const AppLayout: FC<{ children: ReactNode } & AnniversariesPropType> = ({
               </Radio>
             </Stack>
           </RadioGroup>
+        </Box>
+
+        <Box paddingTop="10">
+          <CalendarUrl />
         </Box>
       </Stack>
       <Stack w="full">{children}</Stack>
