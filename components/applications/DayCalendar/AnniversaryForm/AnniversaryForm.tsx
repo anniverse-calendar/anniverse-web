@@ -64,9 +64,10 @@ export const AnniversaryFormModal: React.FC<AnniversaryFormProps> = ({
                   <FormLabel>記念日</FormLabel>
                   <Input
                     value={formData.name}
-                    onChange={(e) =>
-                      setFormData({ ...formData, name: e.target.value })
-                    }
+                    onChange={(e) => {
+                      const name = e.target.value;
+                      setFormData((old) => ({ ...old, name }));
+                    }}
                   />
                   <FormHelperText>
                     「〇〇の日」「クリスマス」など記念日の名前を登録します
@@ -76,9 +77,10 @@ export const AnniversaryFormModal: React.FC<AnniversaryFormProps> = ({
                   <FormLabel>説明</FormLabel>
                   <Textarea
                     value={formData.description}
-                    onChange={(e) =>
-                      setFormData({ ...formData, description: e.target.value })
-                    }
+                    onChange={(e) => {
+                      const description = e.target.value;
+                      setFormData((old) => ({ ...old, description }));
+                    }}
                   />
                   <FormHelperText>記念日の説明</FormHelperText>
                 </FormControl>
@@ -86,9 +88,10 @@ export const AnniversaryFormModal: React.FC<AnniversaryFormProps> = ({
                   <FormLabel>祝日制定者の名前</FormLabel>
                   <Input
                     value={formData.author}
-                    onChange={(e) =>
-                      setFormData({ ...formData, author: e.target.value })
-                    }
+                    onChange={(e) => {
+                      const author = e.target.value;
+                      setFormData((old) => ({ ...old, author }));
+                    }}
                   />
                   <FormHelperText>
                     「@shwld」など制定した人の名前を入力すると、カレンダーに表示されます
@@ -98,9 +101,10 @@ export const AnniversaryFormModal: React.FC<AnniversaryFormProps> = ({
                   <FormLabel>祝日制定者のURL</FormLabel>
                   <Input
                     value={formData.authorUrl}
-                    onChange={(e) =>
-                      setFormData({ ...formData, authorUrl: e.target.value })
-                    }
+                    onChange={(e) => {
+                      const authorUrl = e.target.value;
+                      setFormData((old) => ({ ...old, authorUrl }));
+                    }}
                   />
                   <FormHelperText>
                     「https://twitter.com/shwld」など制定者のプロフィールへのリンクを設定できます

@@ -82,6 +82,13 @@ export function useAnniversary(
         startFetch();
         await web3Client?.contract.mint(month, day);
       } catch (e) {
+        finishFetch();
+        toast({
+          title: 'ミントに失敗しました',
+          status: 'warning',
+          duration: 9000,
+          isClosable: true,
+        });
         console.warn(e);
       }
     },
@@ -89,13 +96,24 @@ export function useAnniversary(
       if (web3Client == null) return;
       startFetch();
       const tokenId = tokenIdFromMonthDay(month, day);
-      web3Client?.contract.setAnniversary(
-        tokenId,
-        data.name,
-        data.description,
-        data.author,
-        data.authorUrl
-      );
+      try {
+        await web3Client?.contract.setAnniversary(
+          tokenId,
+          data.name,
+          data.description,
+          data.author,
+          data.authorUrl
+        );
+      } catch (e) {
+        finishFetch();
+        toast({
+          title: '更新に失敗しました',
+          status: 'warning',
+          duration: 9000,
+          isClosable: true,
+        });
+        console.warn(e);
+      }
     },
   };
 }

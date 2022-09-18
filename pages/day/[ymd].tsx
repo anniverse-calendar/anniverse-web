@@ -121,6 +121,8 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
       anniversary: {
         name: anniversary.name,
         description: anniversary.description,
+        author: anniversary.author,
+        authorUrl: anniversary.authorUrl,
         isEmpty: anniversary.isEmpty,
       },
     },
