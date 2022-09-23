@@ -26,11 +26,17 @@ export default async function handler(
       year <= dayjs().add(10, 'year').year();
       year++
     ) {
-      const yyyymmdd = dayjs(new Date(year, month - 1, day)).format('YYYYMMDD');
-      console.log('revalidate: day calendar', yyyymmdd);
-      await res.revalidate(`/day/${yyyymmdd}`);
-      console.log('revalidate: ogp', yyyymmdd);
-      await res.revalidate(`/api/day/${yyyymmdd}/ogp.png`);
+      try {
+        const yyyymmdd = dayjs(new Date(year, month - 1, day)).format(
+          'YYYYMMDD'
+        );
+        console.log('revalidate: day calendar', yyyymmdd);
+        await res.revalidate(`/day/${yyyymmdd}`);
+        console.log('revalidate: ogp', yyyymmdd);
+        await res.revalidate(`/api/day/${yyyymmdd}/ogp.png`);
+      } catch (e) {
+        console.warn('revalidate error', e);
+      }
     }
 
     console.log('revalidate: success');

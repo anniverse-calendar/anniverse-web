@@ -109,6 +109,7 @@ export const getStaticPaths: GetStaticPaths = () => {
     fallback: true,
   };
 };
+
 export const getStaticProps: GetStaticProps = async (context) => {
   if (context.params?.ymd == null) {
     return {
