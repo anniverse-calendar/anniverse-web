@@ -70,6 +70,9 @@ export function useAnniversary(
         web3Client.contract.isMinter(month, day).then(setCanEdit);
       }
     );
+
+    web3Client.contract.hasMinted(month, day).then(setIsMinted);
+    web3Client.contract.isMinter(month, day).then(setCanEdit);
   }, [web3Client, month, day, setAnniversary, finishFetch, toast]);
 
   return {
