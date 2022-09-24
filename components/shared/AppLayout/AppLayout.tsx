@@ -34,7 +34,7 @@ export const AppLayout: FC<{ children: ReactNode } & AnniversariesPropType> = ({
             defaultValue={router.pathname === '/month' ? '/month' : '/year'}
             onChange={(path) => {
               router.replace(
-                `${path}?ym=${dayjs(new Date(year, month + 1, 1)).format(
+                `${path}?ym=${dayjs(new Date(year, month - 1, 1)).format(
                   'YYYYMM'
                 )}`
               );
