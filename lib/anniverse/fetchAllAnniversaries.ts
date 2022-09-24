@@ -5,25 +5,19 @@ export async function fetchAllAnniversaries(
   client: Client
 ): Promise<AnniversariesPropType> {
   const calendar: AnniversariesPropType['calendar'] = {};
-  const promises: Promise<void>[] = [];
-  for (let month = 1; month <= 12; month++) {
-    calendar[month] = {};
-    for (let day = 1; day <= 31; day++) {
-      const tokenId = month * 100 + day;
-      promises.push(
-        client.contract.anniversary(tokenId).then((anniversary) => {
-          calendar[month][day] = {
-            name: anniversary.name,
-            description: anniversary.description,
-            author: anniversary.author,
-            authorUrl: anniversary.authorUrl,
-            isEmpty: anniversary.isEmpty,
-          };
-        })
-      );
-    }
-  }
-  await Promise.all(promises);
+  const anniversaries = await client.contract.anniversaries365();
+  anniversaries.forEach((anniversary) => {
+    const month = anniversary.month;
+    const day = anniversary.day;
+    if (calendar[month] == null) calendar[month] = {};
+    calendar[month][day] = {
+      name: anniversary.name,
+      description: anniversary.description,
+      author: anniversary.author,
+      authorUrl: anniversary.authorUrl,
+      isEmpty: anniversary.isEmpty,
+    };
+  });
 
   return { calendar };
 }
