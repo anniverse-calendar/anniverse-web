@@ -127,6 +127,56 @@ const _abi = [
     type: "event",
   },
   {
+    inputs: [],
+    name: "anniversaries365",
+    outputs: [
+      {
+        components: [
+          {
+            internalType: "uint8",
+            name: "month",
+            type: "uint8",
+          },
+          {
+            internalType: "uint8",
+            name: "day",
+            type: "uint8",
+          },
+          {
+            internalType: "string",
+            name: "name",
+            type: "string",
+          },
+          {
+            internalType: "string",
+            name: "description",
+            type: "string",
+          },
+          {
+            internalType: "string",
+            name: "author",
+            type: "string",
+          },
+          {
+            internalType: "string",
+            name: "authorUrl",
+            type: "string",
+          },
+          {
+            internalType: "bool",
+            name: "isEmpty",
+            type: "bool",
+          },
+        ],
+        internalType: "struct Anniversable.Anniversary[]",
+        name: "",
+        type: "tuple[]",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
     inputs: [
       {
         internalType: "uint256",
@@ -138,6 +188,16 @@ const _abi = [
     outputs: [
       {
         components: [
+          {
+            internalType: "uint8",
+            name: "month",
+            type: "uint8",
+          },
+          {
+            internalType: "uint8",
+            name: "day",
+            type: "uint8",
+          },
           {
             internalType: "string",
             name: "name",

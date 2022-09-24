@@ -44,6 +44,8 @@ export declare namespace Anniversable {
   };
 
   export type AnniversaryStruct = {
+    month: PromiseOrValue<BigNumberish>;
+    day: PromiseOrValue<BigNumberish>;
     name: PromiseOrValue<string>;
     description: PromiseOrValue<string>;
     author: PromiseOrValue<string>;
@@ -52,12 +54,16 @@ export declare namespace Anniversable {
   };
 
   export type AnniversaryStructOutput = [
+    number,
+    number,
     string,
     string,
     string,
     string,
     boolean
   ] & {
+    month: number;
+    day: number;
     name: string;
     description: string;
     author: string;
@@ -70,6 +76,7 @@ export interface AnniversaryTokenInterface extends utils.Interface {
   functions: {
     "DEFAULT_ADMIN_ROLE()": FunctionFragment;
     "PAUSER_ROLE()": FunctionFragment;
+    "anniversaries365()": FunctionFragment;
     "anniversary(uint256)": FunctionFragment;
     "approve(address,uint256)": FunctionFragment;
     "balanceOf(address)": FunctionFragment;
@@ -109,6 +116,7 @@ export interface AnniversaryTokenInterface extends utils.Interface {
     nameOrSignatureOrTopic:
       | "DEFAULT_ADMIN_ROLE"
       | "PAUSER_ROLE"
+      | "anniversaries365"
       | "anniversary"
       | "approve"
       | "balanceOf"
@@ -150,6 +158,10 @@ export interface AnniversaryTokenInterface extends utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "PAUSER_ROLE",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "anniversaries365",
     values?: undefined
   ): string;
   encodeFunctionData(
@@ -295,6 +307,10 @@ export interface AnniversaryTokenInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "PAUSER_ROLE",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "anniversaries365",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -535,6 +551,10 @@ export interface AnniversaryToken extends BaseContract {
 
     PAUSER_ROLE(overrides?: CallOverrides): Promise<[string]>;
 
+    anniversaries365(
+      overrides?: CallOverrides
+    ): Promise<[Anniversable.AnniversaryStructOutput[]]>;
+
     anniversary(
       tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
@@ -714,6 +734,10 @@ export interface AnniversaryToken extends BaseContract {
 
   PAUSER_ROLE(overrides?: CallOverrides): Promise<string>;
 
+  anniversaries365(
+    overrides?: CallOverrides
+  ): Promise<Anniversable.AnniversaryStructOutput[]>;
+
   anniversary(
     tokenId: PromiseOrValue<BigNumberish>,
     overrides?: CallOverrides
@@ -892,6 +916,10 @@ export interface AnniversaryToken extends BaseContract {
     DEFAULT_ADMIN_ROLE(overrides?: CallOverrides): Promise<string>;
 
     PAUSER_ROLE(overrides?: CallOverrides): Promise<string>;
+
+    anniversaries365(
+      overrides?: CallOverrides
+    ): Promise<Anniversable.AnniversaryStructOutput[]>;
 
     anniversary(
       tokenId: PromiseOrValue<BigNumberish>,
@@ -1152,6 +1180,8 @@ export interface AnniversaryToken extends BaseContract {
 
     PAUSER_ROLE(overrides?: CallOverrides): Promise<BigNumber>;
 
+    anniversaries365(overrides?: CallOverrides): Promise<BigNumber>;
+
     anniversary(
       tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
@@ -1333,6 +1363,8 @@ export interface AnniversaryToken extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     PAUSER_ROLE(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    anniversaries365(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     anniversary(
       tokenId: PromiseOrValue<BigNumberish>,

@@ -14,8 +14,6 @@ export type { IAccessControl } from "./@openzeppelin/contracts/access/IAccessCon
 export { IAccessControl__factory } from "./factories/@openzeppelin/contracts/access/IAccessControl__factory";
 export type { IAccessControlEnumerable } from "./@openzeppelin/contracts/access/IAccessControlEnumerable";
 export { IAccessControlEnumerable__factory } from "./factories/@openzeppelin/contracts/access/IAccessControlEnumerable__factory";
-export type { Ownable } from "./@openzeppelin/contracts/access/Ownable";
-export { Ownable__factory } from "./factories/@openzeppelin/contracts/access/Ownable__factory";
 export type { Pausable } from "./@openzeppelin/contracts/security/Pausable";
 export { Pausable__factory } from "./factories/@openzeppelin/contracts/security/Pausable__factory";
 export type { ERC721 } from "./@openzeppelin/contracts/token/ERC721/ERC721";
@@ -34,8 +32,6 @@ export type { IERC721 } from "./@openzeppelin/contracts/token/ERC721/IERC721";
 export { IERC721__factory } from "./factories/@openzeppelin/contracts/token/ERC721/IERC721__factory";
 export type { IERC721Receiver } from "./@openzeppelin/contracts/token/ERC721/IERC721Receiver";
 export { IERC721Receiver__factory } from "./factories/@openzeppelin/contracts/token/ERC721/IERC721Receiver__factory";
-export type { ERC721PresetMinterPauserAutoId } from "./@openzeppelin/contracts/token/ERC721/presets/ERC721PresetMinterPauserAutoId";
-export { ERC721PresetMinterPauserAutoId__factory } from "./factories/@openzeppelin/contracts/token/ERC721/presets/ERC721PresetMinterPauserAutoId__factory";
 export type { ERC165 } from "./@openzeppelin/contracts/utils/introspection/ERC165";
 export { ERC165__factory } from "./factories/@openzeppelin/contracts/utils/introspection/ERC165__factory";
 export type { IERC165 } from "./@openzeppelin/contracts/utils/introspection/IERC165";

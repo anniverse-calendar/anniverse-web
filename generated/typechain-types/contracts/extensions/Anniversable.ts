@@ -43,6 +43,8 @@ export declare namespace Anniversable {
   };
 
   export type AnniversaryStruct = {
+    month: PromiseOrValue<BigNumberish>;
+    day: PromiseOrValue<BigNumberish>;
     name: PromiseOrValue<string>;
     description: PromiseOrValue<string>;
     author: PromiseOrValue<string>;
@@ -51,12 +53,16 @@ export declare namespace Anniversable {
   };
 
   export type AnniversaryStructOutput = [
+    number,
+    number,
     string,
     string,
     string,
     string,
     boolean
   ] & {
+    month: number;
+    day: number;
     name: string;
     description: string;
     author: string;
@@ -67,6 +73,7 @@ export declare namespace Anniversable {
 
 export interface AnniversableInterface extends utils.Interface {
   functions: {
+    "anniversaries365()": FunctionFragment;
     "anniversary(uint256)": FunctionFragment;
     "approve(address,uint256)": FunctionFragment;
     "balanceOf(address)": FunctionFragment;
@@ -86,6 +93,7 @@ export interface AnniversableInterface extends utils.Interface {
 
   getFunction(
     nameOrSignatureOrTopic:
+      | "anniversaries365"
       | "anniversary"
       | "approve"
       | "balanceOf"
@@ -103,6 +111,10 @@ export interface AnniversableInterface extends utils.Interface {
       | "transferFrom"
   ): FunctionFragment;
 
+  encodeFunctionData(
+    functionFragment: "anniversaries365",
+    values?: undefined
+  ): string;
   encodeFunctionData(
     functionFragment: "anniversary",
     values: [PromiseOrValue<BigNumberish>]
@@ -177,6 +189,10 @@ export interface AnniversableInterface extends utils.Interface {
     ]
   ): string;
 
+  decodeFunctionResult(
+    functionFragment: "anniversaries365",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(
     functionFragment: "anniversary",
     data: BytesLike
@@ -308,6 +324,10 @@ export interface Anniversable extends BaseContract {
   removeListener: OnEvent<this>;
 
   functions: {
+    anniversaries365(
+      overrides?: CallOverrides
+    ): Promise<[Anniversable.AnniversaryStructOutput[]]>;
+
     anniversary(
       tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
@@ -391,6 +411,10 @@ export interface Anniversable extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
   };
+
+  anniversaries365(
+    overrides?: CallOverrides
+  ): Promise<Anniversable.AnniversaryStructOutput[]>;
 
   anniversary(
     tokenId: PromiseOrValue<BigNumberish>,
@@ -476,6 +500,10 @@ export interface Anniversable extends BaseContract {
   ): Promise<ContractTransaction>;
 
   callStatic: {
+    anniversaries365(
+      overrides?: CallOverrides
+    ): Promise<Anniversable.AnniversaryStructOutput[]>;
+
     anniversary(
       tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
@@ -605,6 +633,8 @@ export interface Anniversable extends BaseContract {
   };
 
   estimateGas: {
+    anniversaries365(overrides?: CallOverrides): Promise<BigNumber>;
+
     anniversary(
       tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
@@ -690,6 +720,8 @@ export interface Anniversable extends BaseContract {
   };
 
   populateTransaction: {
+    anniversaries365(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
     anniversary(
       tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
