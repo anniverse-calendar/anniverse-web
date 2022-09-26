@@ -1,12 +1,11 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import ReactDOM from 'react-dom/server';
 import * as playwright from 'playwright';
-import { FC, ReactNode } from 'react';
 import { parseYYYYMMDD } from '../../../../lib/date/parseYYYYMMDD';
 import { createWeb3Client } from '../../../../lib/web3Client';
 import { DayHorizontal } from '../../../../components/shared/Day';
-import { ChakraProvider, extendTheme } from '@chakra-ui/react';
 import '@fontsource/rocknroll-one/400.css';
+import { ScreenshotTemplate } from '../../../../components/shared/ScreenshotTemplate';
 
 export default async function handler(
   req: NextApiRequest,
@@ -31,18 +30,18 @@ export default async function handler(
   const page = await browser.newPage({ viewport });
 
   const markup = ReactDOM.renderToStaticMarkup(
-    <Content>
+    <ScreenshotTemplate>
       <DayHorizontal
         year={year}
         month={month}
         day={day}
         anniversary={anniversary}
       />
-    </Content>
+    </ScreenshotTemplate>
   );
   const html = `<!doctype html>${markup}`;
 
-  await page.setContent(html, { waitUntil: 'load' });
+  await page.setContent(html, { waitUntil: 'networkidle' });
   const image = await page.screenshot({ type: 'png' });
   await browser.close();
 
@@ -54,30 +53,3 @@ export default async function handler(
 /**
  * PRIVATE
  */
-
-const styles = `
-@import url('https://fonts.googleapis.com/css2?family=RocknRoll+One&display=block');
-
-* {
-  font-family: 'RocknRoll One', sans-serif;
-}
-`;
-
-const theme = extendTheme({
-  fonts: {
-    heading: `'RocknRoll One', sans-serif`,
-    body: `'RocknRoll One', sans-serif`,
-  },
-});
-
-const Content: FC<{ children: ReactNode }> = ({ children }) => (
-  <html>
-    {/* eslint-disable-next-line @next/next/no-head-element */}
-    <head>
-      <style dangerouslySetInnerHTML={{ __html: styles }} />
-    </head>
-    <body>
-      <ChakraProvider theme={theme}>{children}</ChakraProvider>
-    </body>
-  </html>
-);
