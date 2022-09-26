@@ -41,7 +41,7 @@ export default async function handler(
   const html = `<!doctype html>${markup}`;
 
   // console.log('set content...');
-  await page.setContent(html, { waitUntil: 'load' });
+  await page.setContent(html, { waitUntil: 'networkidle' });
   // console.log('get screenshot...');
   const image = await page.screenshot({ type: 'png' });
   // console.log('browser closing...');
