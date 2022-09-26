@@ -122,7 +122,6 @@ export const getStaticProps: GetStaticProps = async (context) => {
   const tokenId = month * 100 + day;
   const client = createWeb3Client();
   const anniversary = await client.contract.anniversary(tokenId);
-  console.log(anniversary);
   return {
     props: {
       year,

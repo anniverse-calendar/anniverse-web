@@ -25,6 +25,7 @@ export default async function handler(
 
   const client = createWeb3Client();
   const anniversary = await client.contract.anniversary(tokenId);
+  console.log({ anniversary });
 
   const viewport = { width: 350, height: 350 };
 
@@ -67,7 +68,7 @@ const styles = `
 
 const theme = extendTheme({
   fonts: {
-    heading: `'Open Sans', sans-serif`,
+    heading: `'RocknRoll One', sans-serif`,
     body: `'RocknRoll One', sans-serif`,
   },
 });
