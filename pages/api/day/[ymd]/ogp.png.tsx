@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import ReactDOM from 'react-dom/server';
-import * as playwright from 'playwright-aws-lambda';
+import * as playwright from 'playwright';
 import { FC, ReactNode } from 'react';
 import { parseYYYYMMDD } from '../../../../lib/date/parseYYYYMMDD';
 import { createWeb3Client } from '../../../../lib/web3Client';
@@ -26,7 +26,7 @@ export default async function handler(
 
   const viewport = { width: 1200, height: 630 };
 
-  const browser = await playwright.launchChromium({ headless: true });
+  const browser = await playwright.chromium.launch({ headless: true });
   const page = await browser.newPage({ viewport });
 
   const markup = ReactDOM.renderToStaticMarkup(
