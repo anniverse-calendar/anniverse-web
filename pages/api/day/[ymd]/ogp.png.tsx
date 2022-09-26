@@ -73,7 +73,7 @@ const Content: FC<{ children: ReactNode }> = ({ children }) => (
   <html>
     {/* eslint-disable-next-line @next/next/no-head-element */}
     <head>
-      <style>{styles}</style>
+      <style dangerouslySetInnerHTML={{ __html: styles }} />
     </head>
     <body>
       <ChakraProvider theme={theme}>{children}</ChakraProvider>

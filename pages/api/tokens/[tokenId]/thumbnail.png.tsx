@@ -28,7 +28,9 @@ export default async function handler(
 
   const viewport = { width: 350, height: 350 };
 
+  // console.log('launching...');
   const browser = await playwright.chromium.launch({ headless: true });
+  // console.log('page creating...');
   const page = await browser.newPage({ viewport });
 
   const markup = ReactDOM.renderToStaticMarkup(
@@ -38,10 +40,14 @@ export default async function handler(
   );
   const html = `<!doctype html>${markup}`;
 
+  // console.log('set content...');
   await page.setContent(html, { waitUntil: 'load' });
+  // console.log('get screenshot...');
   const image = await page.screenshot({ type: 'png' });
+  // console.log('browser closing...');
   await browser.close();
 
+  // console.log('finished...');
   res.setHeader('Cache-Control', 's-maxage=31536000, stale-while-revalidate');
   res.setHeader('Content-Type', 'image/png');
   res.end(image);
@@ -70,7 +76,7 @@ const Content: FC<{ children: ReactNode }> = ({ children }) => (
   <html>
     {/* eslint-disable-next-line @next/next/no-head-element */}
     <head>
-      <style>{styles}</style>
+      <style dangerouslySetInnerHTML={{ __html: styles }} />
     </head>
     <body>
       <ChakraProvider theme={theme}>{children}</ChakraProvider>
