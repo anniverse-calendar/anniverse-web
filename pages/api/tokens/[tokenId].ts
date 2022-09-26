@@ -22,8 +22,19 @@ export default async function handler(
   }
 
   return res.json({
-    name: anniversary.name,
     description: anniversary.description,
+    external_url: `https://${req.headers.host}/api/tokens/${tokenId}`,
     image: `https://${req.headers.host}/api/tokens/${tokenId}/thumbnail.png`,
+    name: anniversary.name,
+    attributes: [
+      {
+        trait_type: 'Mouth',
+        value: anniversary.month,
+      },
+      {
+        trait_type: 'Day',
+        value: anniversary.day,
+      },
+    ],
   });
 }
