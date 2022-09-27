@@ -8,6 +8,11 @@ import {
   Flex,
   Img,
   Link,
+  Accordion,
+  AccordionItem,
+  AccordionButton,
+  AccordionPanel,
+  AccordionIcon,
 } from '@chakra-ui/react';
 import { CalendarUrl } from '../../shared/CalendarUrl';
 import { CalendarIcon } from '../../icons/CalendarIcon';
@@ -95,6 +100,97 @@ export const Landing: FC = () => {
               </Flex>
               <CalendarUrl />
             </Stack>
+          </Box>
+
+          <Box w="full">
+            <Heading fontSize="2xl" marginBottom="5">
+              よくある質問
+            </Heading>
+            <Accordion defaultIndex={[0]} allowMultiple>
+              <AccordionItem>
+                <h2>
+                  <AccordionButton>
+                    <Box flex="1" textAlign="left">
+                      このカレンダーに祝日を登録してどんな意味があるの?
+                    </Box>
+                    <AccordionIcon />
+                  </AccordionButton>
+                </h2>
+                <AccordionPanel pb={4}>
+                  現時点では「このサイトに祝日が登録される」以上の意味はありません。このカレンダーが広まり、多くの人が参照するほどに祝日にも価値が生まれる。そんなカレンダーです。
+                </AccordionPanel>
+              </AccordionItem>
+
+              <AccordionItem>
+                <h3>
+                  <AccordionButton>
+                    <Box flex="1" textAlign="left">
+                      どうやるの?
+                    </Box>
+                    <AccordionIcon />
+                  </AccordionButton>
+                </h3>
+                <AccordionPanel pb={4}>
+                  <Link
+                    href="https://alu.co.jp/marimo"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    別のNFTですが、こちらのページがわかりやすいです。https://alu.co.jp/marimo
+                  </Link>
+                </AccordionPanel>
+              </AccordionItem>
+
+              <AccordionItem>
+                <h2>
+                  <AccordionButton>
+                    <Box flex="1" textAlign="left">
+                      祝日は売買できるの?
+                    </Box>
+                    <AccordionIcon />
+                  </AccordionButton>
+                </h2>
+                <AccordionPanel pb={4}>
+                  NFTなので
+                  <Link
+                    href="https://opensea.io/collection/marimo-life"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    OpenSea
+                  </Link>
+                  などで売買できます。
+                </AccordionPanel>
+              </AccordionItem>
+
+              <AccordionItem>
+                <h2>
+                  <AccordionButton>
+                    <Box flex="1" textAlign="left">
+                      値上がりは期待できるの?
+                    </Box>
+                    <AccordionIcon />
+                  </AccordionButton>
+                </h2>
+                <AccordionPanel pb={4}>
+                  カレンダーが有名になれば値上がりするかもしれませんが、まったくわかりません。まずはこのカレンダーを紹介してみてください。
+                </AccordionPanel>
+              </AccordionItem>
+
+              <AccordionItem>
+                <h2>
+                  <AccordionButton>
+                    <Box flex="1" textAlign="left">
+                      収益は何に使われるの?
+                    </Box>
+                    <AccordionIcon />
+                  </AccordionButton>
+                </h2>
+                <AccordionPanel pb={4}>
+                  ブロックチェーンプロジェクトや開発にかかわる活動に使おうと思っています。
+                </AccordionPanel>
+              </AccordionItem>
+            </Accordion>
           </Box>
 
           <Stack justifyContent="center" gap="20">
