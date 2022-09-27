@@ -1,9 +1,10 @@
 import { LinkIcon } from '@chakra-ui/icons';
-import { Button } from '@chakra-ui/react';
+import { Button, Flex } from '@chakra-ui/react';
 import { useWeb3Context } from '../../../lib/web3Client/useWeb3Context';
 import { AnniversaryFormModal } from './AnniversaryForm';
 import { useAnniversary } from './useAnniversary';
 import { Day } from '../../shared/Day';
+import { ShareButtons } from '../../shared/ShareButtons';
 
 export const DayCalendar: React.FC<{
   year: number;
@@ -31,33 +32,36 @@ export const DayCalendar: React.FC<{
       day={day}
       anniversary={value}
       footer={
-        web3Client == null ? (
-          <Button
-            onClick={(e) => {
-              e.preventDefault();
-              connect();
-            }}
-            leftIcon={<LinkIcon />}
-          >
-            ログイン
-          </Button>
-        ) : !isMinted ? (
-          <Button
-            onClick={(e) => {
-              e.preventDefault();
-              mint();
-            }}
-            leftIcon={<LinkIcon />}
-          >
-            ミント
-          </Button>
-        ) : (
-          <AnniversaryFormModal
-            disabled={!canEdit}
-            defaultValues={value}
-            onSubmit={update}
-          />
-        )
+        <Flex justifyContent="space-between" w="full">
+          {web3Client == null ? (
+            <Button
+              onClick={(e) => {
+                e.preventDefault();
+                connect();
+              }}
+              leftIcon={<LinkIcon />}
+            >
+              ログイン
+            </Button>
+          ) : !isMinted ? (
+            <Button
+              onClick={(e) => {
+                e.preventDefault();
+                mint();
+              }}
+              leftIcon={<LinkIcon />}
+            >
+              ミント
+            </Button>
+          ) : (
+            <AnniversaryFormModal
+              disabled={!canEdit}
+              defaultValues={value}
+              onSubmit={update}
+            />
+          )}
+          <ShareButtons />
+        </Flex>
       }
     />
   );

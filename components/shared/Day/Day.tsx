@@ -35,10 +35,11 @@ export const Day: React.FC<{
     () => formatWareki(new Date(year, month - 1, 1)),
     [year, month]
   );
-  const sizes =
+  const textColor = anniversary?.isEmpty === false ? 'red.600' : 'gray.700';
+  const { textSize, containerW, dayFontSize } =
     size === 'lg'
-      ? { text: '4xl', containerW: '500px', dayFontSize: '300px' }
-      : { text: 'xl', containerW: '400px', dayFontSize: '180px' };
+      ? { textSize: '4xl', containerW: '500px', dayFontSize: '300px' }
+      : { textSize: 'xl', containerW: '400px', dayFontSize: '180px' };
   return (
     <Stack
       w="full"
@@ -47,40 +48,46 @@ export const Day: React.FC<{
       alignItems="center"
       gap="3"
     >
-      <Box maxW={sizes.containerW} w="full">
+      <Box maxW={containerW} w="full">
         <Flex justifyContent="space-between" w="full">
-          <Text padding="5" fontSize={sizes.text}>
+          <Text padding="5" fontSize={textSize} color={textColor}>
             {year}年
           </Text>
-          <Text padding="5" fontSize={sizes.text}>
+          <Text padding="5" fontSize={textSize} color={textColor}>
             {month}月
           </Text>
-          <Text padding="5" fontSize={sizes.text}>
+          <Text padding="5" fontSize={textSize} color={textColor}>
             {wareki}
           </Text>
         </Flex>
-        <Heading fontSize={sizes.dayFontSize} w="full" textAlign="center">
+        <Heading
+          fontSize={dayFontSize}
+          color={textColor}
+          w="full"
+          textAlign="center"
+        >
           {day}
         </Heading>
       </Box>
-      <Box maxW={sizes.containerW} w="full">
+      <Box maxW={containerW} w="full">
         <Flex justifyContent="space-between" w="full">
           <Badge
             padding="5"
-            fontSize={sizes.text}
+            fontSize={textSize}
             fontWeight="bold"
             borderRadius="full"
             display="flex"
             alignItems="center"
+            color="gray.700"
           >
             {weekday}曜日
           </Badge>
-          <Text padding="5" fontSize={sizes.text}>
+          <Text padding="5" fontSize={textSize} color="gray.700">
             {anniversary?.name}
           </Text>
         </Flex>
         <Stack padding="5">
-          <Text>{anniversary?.description}</Text>
+          <Text color="gray.700">{anniversary?.description}</Text>
           <Flex justifyContent="flex-end" alignItems="center" gap="2">
             {anniversary?.author && (
               <Link

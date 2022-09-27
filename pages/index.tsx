@@ -1,4 +1,4 @@
-import { Box, Button } from '@chakra-ui/react';
+import { Box, Flex, Img, Link } from '@chakra-ui/react';
 import dayjs from 'dayjs';
 import type { GetServerSideProps, NextPage } from 'next';
 import Head from 'next/head';
@@ -19,7 +19,7 @@ const Home: NextPage<{
   return (
     <>
       <Head>
-        <title>Anniverse: ブロックチェーン上の特別な祝日カレンダー</title>
+        <title>Anniverse: NFT祝日カレンダー</title>
         <meta name="description" content="世界でひとつの特別な祝日を作ろう" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
@@ -31,6 +31,11 @@ const Home: NextPage<{
           size="sm"
           footer={<NextLink href={`/day/${props.ymd}`}>開く</NextLink>}
         />
+        <Flex justifyContent="flex-end" padding="2" gap="2">
+          <Link href="https://github.com/anniverse-calendar">
+            <Img src="/images/GitHub-Mark-64px.png" alt="GitHub" w="30px" />
+          </Link>
+        </Flex>
       </Box>
     </>
   );

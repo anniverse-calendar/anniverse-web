@@ -19,7 +19,7 @@ export default async function handler(
     anniversary: Anniversary
   ) => {
     if (anniversary.isEmpty) return;
-    const date = dayjs(new Date(year, month, day));
+    const date = dayjs(new Date(year, month - 1, day));
     calendar.createEvent({
       start: date.startOf('day').toDate(),
       end: date.endOf('day').toDate(),
@@ -48,6 +48,6 @@ export default async function handler(
     });
   }
 
-  res.setHeader('Cache-Control', 's-maxage=31536000, stale-while-revalidate');
+  res.setHeader('Cache-Control', 's-maxage=86400, stale-while-revalidate');
   calendar.serve(res);
 }

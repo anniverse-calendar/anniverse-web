@@ -44,13 +44,13 @@ export const Anniversary: React.FC<{
         </Heading>
       </Box>
       <Box maxW={sizes.containerW} w="full">
-        <Stack marginX={2}>
+        <Stack justifyContent="center" alignItems="center">
           <Text color="red.600" fontSize={sizes.text}>
             {anniversary.name}
           </Text>
           <Text color="gray">{anniversary.description}</Text>
         </Stack>
-        <Flex justifyContent="flex-end" alignItems="center" gap="2" marginX={2}>
+        <Flex justifyContent="center" alignItems="center" gap="2">
           {anniversary.author && (
             <Link
               href={anniversary.authorUrl || '#'}

@@ -1,4 +1,4 @@
-import { Button, Grid, GridItem, Text } from '@chakra-ui/react';
+import { Button, Flex, Grid, GridItem, Text } from '@chakra-ui/react';
 import { WEEK_DAYS } from '../../../lib/date/constants';
 import { useCalendar } from '../../../lib/date/useCalendar';
 import {
@@ -10,6 +10,7 @@ import type { Dayjs } from 'dayjs';
 import Router from 'next/router';
 import { DayNumber } from '../Day/DayNumber';
 import NextLink from 'next/link';
+import { ShareButtons } from '../ShareButtons';
 
 type CalendarProps = {
   year: number;
@@ -67,9 +68,18 @@ export const MiniCalendar: React.FC<CalendarProps> = ({
                 day={day.date()}
                 anniversary={getAnniversary(day)}
                 footer={
-                  <NextLink href={`/day/${day.format('YYYYMMDD')}`}>
-                    <Button>全画面で開く</Button>
-                  </NextLink>
+                  <Flex justifyContent="space-between" w="full">
+                    <NextLink href={`/day/${day.format('YYYYMMDD')}`}>
+                      <Button>全画面で開く</Button>
+                    </NextLink>
+                    <ShareButtons
+                      title={
+                        getAnniversary(day)?.name ??
+                        'Anniverse: NFT祝日カレンダー'
+                      }
+                      url={generateUrl(`/day/${day.format('YYYYMMDD')}`)}
+                    />
+                  </Flex>
                 }
               />
             </Tooltip>
@@ -90,3 +100,7 @@ const useAnniversary =
     if (anniversaries[month]?.[day.date()]?.isEmpty) return;
     return anniversaries[month][day.date()];
   };
+
+const generateUrl = (path: string): string => {
+  return `https://${location.host}${path}`;
+};

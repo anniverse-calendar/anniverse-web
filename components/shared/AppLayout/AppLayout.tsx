@@ -6,6 +6,7 @@ import dayjs from 'dayjs';
 import { useParamsYMD } from '../../../lib/date/useParamsYMD';
 import { AnniversariesPropType } from '../../../lib/types/AnniversariesPropType';
 import { CalendarUrl } from '../CalendarUrl';
+import { ShareButtons } from '../ShareButtons';
 
 export const AppLayout: FC<{ children: ReactNode } & AnniversariesPropType> = ({
   children,
@@ -45,7 +46,7 @@ export const AppLayout: FC<{ children: ReactNode } & AnniversariesPropType> = ({
               <Radio colorScheme="red" value="/year">
                 年
               </Radio>
-              <Radio colorScheme="green" value="/month">
+              <Radio colorScheme="red" value="/month">
                 月
               </Radio>
             </Stack>
@@ -54,6 +55,10 @@ export const AppLayout: FC<{ children: ReactNode } & AnniversariesPropType> = ({
 
         <Box paddingTop="10">
           <CalendarUrl />
+        </Box>
+        <Box paddingTop="10">
+          <Text marginBottom="3">SHARE</Text>
+          <ShareButtons />
         </Box>
       </Stack>
       <Stack w="full">{children}</Stack>

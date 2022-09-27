@@ -24,7 +24,7 @@ export const DayNumber = forwardRef<{}, ComponentProps<typeof Day>>(
           {...(props.anniversary == null || props.anniversary?.isEmpty
             ? {}
             : {
-                bgColor: 'blue.500',
+                bgColor: 'red.600',
                 color: 'white',
               })}
           onClick={onOpen}
