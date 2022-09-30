@@ -12,14 +12,14 @@ import { useWeb3Context } from '../../../lib/web3Client';
 import { EthereumIcon } from '../../icons/EthereumIcon';
 
 export const Loading: FC = () => {
-  const { fetching } = useWeb3Context();
+  const { processing } = useWeb3Context();
   const cancelRef = useRef(null);
   return (
     <AlertDialog
       motionPreset="slideInBottom"
       leastDestructiveRef={cancelRef}
       onClose={() => {}}
-      isOpen={fetching}
+      isOpen={processing}
       isCentered
     >
       <AlertDialogOverlay />

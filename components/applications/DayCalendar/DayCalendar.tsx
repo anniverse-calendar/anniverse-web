@@ -1,12 +1,14 @@
 import { LinkIcon } from '@chakra-ui/icons';
 import { Button, Flex } from '@chakra-ui/react';
-import { useWeb3Context } from '../../../lib/web3Client/useWeb3Context';
 import { AnniversaryFormModal } from './AnniversaryForm';
-import { useAnniversary } from './useAnniversary';
 import { Day } from '../../shared/Day';
 import { ShareButtons } from '../../shared/ShareButtons';
+import { RequireWallet } from '../../shared/RequireWallet';
+import { AnniversaryContainer } from '../../shared/AnniversaryContainer';
+import { useState } from 'react';
+import { Anniversary } from '../../../lib/types/AnniversariesPropType';
 
-export const DayCalendar: React.FC<{
+type Props = {
   year: number;
   month: number;
   day: number;
@@ -17,13 +19,14 @@ export const DayCalendar: React.FC<{
     authorUrl: string;
     isEmpty: boolean;
   };
-}> = ({ year, month, day, anniversary }) => {
-  const { web3Client, connect } = useWeb3Context();
-  const { value, update, mint, isMinted, canEdit } = useAnniversary(
-    month,
-    day,
-    anniversary
-  );
+};
+export const DayCalendar: React.FC<Props> = ({
+  year,
+  month,
+  day,
+  anniversary,
+}) => {
+  const [value, setValue] = useState<Anniversary>(anniversary);
 
   return (
     <Day
@@ -33,36 +36,47 @@ export const DayCalendar: React.FC<{
       anniversary={value}
       footer={
         <Flex justifyContent="space-between" w="full">
-          {web3Client == null ? (
-            <Button
-              onClick={(e) => {
-                e.preventDefault();
-                connect();
-              }}
-              leftIcon={<LinkIcon />}
-            >
-              ログイン
-            </Button>
-          ) : !isMinted ? (
-            <Button
-              onClick={(e) => {
-                e.preventDefault();
-                mint();
-              }}
-              leftIcon={<LinkIcon />}
-            >
-              ミント
-            </Button>
-          ) : (
-            <AnniversaryFormModal
-              disabled={!canEdit}
-              defaultValues={value}
-              onSubmit={update}
-            />
-          )}
+          <RequireWallet>
+            {(signer) => (
+              <AnniversaryContainer
+                month={month}
+                day={day}
+                defaultValues={anniversary}
+                signer={signer}
+                onUpdate={setValue}
+              >
+                {({ canEdit, isMinted, update, mint }) => {
+                  if (!isMinted) {
+                    return (
+                      <Button
+                        onClick={(e) => {
+                          e.preventDefault();
+                          mint();
+                        }}
+                        leftIcon={<LinkIcon />}
+                      >
+                        ミント
+                      </Button>
+                    );
+                  }
+                  return (
+                    <AnniversaryFormModal
+                      disabled={!canEdit}
+                      defaultValues={value}
+                      onSubmit={update}
+                    />
+                  );
+                }}
+              </AnniversaryContainer>
+            )}
+          </RequireWallet>
           <ShareButtons />
         </Flex>
       }
     />
   );
 };
+
+/**
+ * PRIVATE
+ */

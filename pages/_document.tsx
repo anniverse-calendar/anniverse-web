@@ -26,7 +26,7 @@ export default function Document(props: DocumentProps) {
           sizes="16x16"
           href="/images/favicon-16x16.png"
         />
-        <link rel="manifest" href="/images/site.webmanifest" />
+        <link rel="manifest" href="/manifest.json" />
         <link
           rel="mask-icon"
           href="/images/safari-pinned-tab.svg"

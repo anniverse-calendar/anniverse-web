@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useWeb3Context } from '../../../lib/web3Client';
 import { useToast } from '@chakra-ui/react';
+import { useAnniverseContract } from '../../../lib/anniverse/useAnniverseContract';
+import { Signer } from 'ethers';
 
 export type Anniversary = {
   name: string;
@@ -10,30 +12,36 @@ export type Anniversary = {
   isEmpty: boolean;
 };
 
-export function useAnniversary(
-  month: number,
-  day: number,
-  defaultValue?: Anniversary
-): {
+export type UseAnniversaryResult = {
   value?: Anniversary;
+  isLoaded: boolean;
   isMinted: boolean;
   canEdit: boolean;
   mint(): Promise<void>;
   update(data: Anniversary): Promise<void>;
-} {
+};
+
+export function useAnniversary(
+  month: number,
+  day: number,
+  signer: Signer | null,
+  defaultValue?: Anniversary
+): UseAnniversaryResult {
   const toast = useToast();
   const [anniversary, setAnniversary] = useState<Anniversary | undefined>(
     defaultValue
   );
-  const { web3Client, startFetch, finishFetch } = useWeb3Context();
+  const { contract } = useAnniverseContract(signer);
+  const { startMutate, finishMutate } = useWeb3Context();
   const [isMinted, setIsMinted] = useState(false);
   const [canEdit, setCanEdit] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
   useEffect(() => {
-    if (web3Client == null) return;
+    if (contract == null || signer == null) return;
 
     const tokenId = tokenIdFromMonthDay(month, day);
-    web3Client.contract.on(web3Client.contract.filters.Transfer(), (e) => {
-      if (finishFetch()) {
+    contract.on(contract.filters.Transfer(), (e) => {
+      if (finishMutate()) {
         toast({
           title: 'ミントしました！',
           status: 'success',
@@ -41,51 +49,72 @@ export function useAnniversary(
           isClosable: true,
         });
       }
-      finishFetch();
+      finishMutate();
       // console.log('transfer', e);
-      web3Client.contract.hasMinted(month, day).then(setIsMinted);
-      web3Client.contract.isMinter(month, day).then(setCanEdit);
+      contract.hasMinted(month, day).then(setIsMinted);
+      contract.isMinter(month, day).then(setCanEdit);
     });
-    web3Client.contract.on(
-      web3Client.contract.filters.AnniversaryUpdated(),
-      (e) => {
-        if (finishFetch()) {
-          toast({
-            title: '更新しました！',
-            status: 'success',
-            duration: 9000,
-            isClosable: true,
-          });
-          fetch(`/api/revalidate`, {
-            method: 'POST',
-            body: JSON.stringify({
-              month,
-              day,
-            }),
-          });
-        }
-        // console.log('anniversary updated', e);
-        web3Client.contract.anniversary(tokenId).then(setAnniversary);
-        web3Client.contract.hasMinted(month, day).then(setIsMinted);
-        web3Client.contract.isMinter(month, day).then(setCanEdit);
+    contract.on(contract.filters.AnniversaryUpdated(), (e) => {
+      if (finishMutate()) {
+        toast({
+          title: '更新しました！',
+          status: 'success',
+          duration: 9000,
+          isClosable: true,
+        });
+        fetch(`/api/revalidate`, {
+          method: 'POST',
+          body: JSON.stringify({
+            month,
+            day,
+          }),
+        });
       }
-    );
+      // console.log('anniversary updated', e);
+      contract.anniversary(tokenId).then(setAnniversary);
+      contract.hasMinted(month, day).then(setIsMinted);
+      contract.isMinter(month, day).then(setCanEdit);
+    });
 
-    web3Client.contract.hasMinted(month, day).then(setIsMinted);
-    web3Client.contract.isMinter(month, day).then(setCanEdit);
-  }, [web3Client, month, day, setAnniversary, finishFetch, toast]);
+    // contract.ownerOf(month * 100 + day).then((res) => {
+    //   console.log({ signer });
+    //   console.log('ownerOf', res);
+    // });
+    Promise.all([
+      contract.hasMinted(month, day).then((res) => {
+        console.log('hasMinted', res);
+        setIsMinted(res);
+      }),
+      contract.isMinter(month, day).then((res) => {
+        console.log('isMinter', res);
+        setCanEdit(res);
+      }),
+    ]).then(() => {
+      setIsLoaded(true);
+    });
+  }, [
+    signer,
+    month,
+    day,
+    setAnniversary,
+    finishMutate,
+    toast,
+    contract,
+    setIsLoaded,
+  ]);
 
   return {
     value: anniversary,
+    isLoaded,
     isMinted,
     canEdit,
     async mint() {
-      if (web3Client == null) return;
+      if (contract == null || signer == null) return;
       try {
-        startFetch();
-        await web3Client?.contract.mint(month, day);
+        startMutate();
+        await contract.mint(month, day);
       } catch (e) {
-        finishFetch();
+        finishMutate();
         toast({
           title: 'ミントに失敗しました',
           status: 'warning',
@@ -96,11 +125,11 @@ export function useAnniversary(
       }
     },
     async update(data: Anniversary) {
-      if (web3Client == null) return;
-      startFetch();
+      if (contract == null || signer == null) return;
+      startMutate();
       const tokenId = tokenIdFromMonthDay(month, day);
       try {
-        await web3Client?.contract.setAnniversary(
+        await contract.setAnniversary(
           tokenId,
           data.name,
           data.description,
@@ -108,7 +137,7 @@ export function useAnniversary(
           data.authorUrl
         );
       } catch (e) {
-        finishFetch();
+        finishMutate();
         toast({
           title: '更新に失敗しました',
           status: 'warning',

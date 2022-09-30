@@ -14,6 +14,8 @@
     "@emotion/react": "^11",
     "@emotion/styled": "^11",
     "@fontsource/rocknroll-one": "^4.5.10",
+    "@web3modal/ethereum": "^2.0.0-alpha.4",
+    "@web3modal/react": "^2.0.0-alpha.4",
     "dayjs": "^1.11.5",
     "ethers": "^5.7.0",
     "framer-motion": "^6",
