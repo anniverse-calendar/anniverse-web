@@ -11,9 +11,9 @@ export const Web3Provider: FC<{ children: ReactNode }> = ({ children }) => {
           appName: 'web3Modal',
           autoConnect: true,
           chains:
-            process.env.NODE_ENV === 'production'
-              ? [chains.mainnet]
-              : [chains.goerli],
+            process.env.NEXT_PUBLIC_WEB3_NETWORK === 'goerli'
+              ? [chains.goerli]
+              : [chains.mainnet],
           providers: [
             providers.walletConnectProvider({
               projectId: process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID!,
