@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useWeb3Context } from '../../../lib/web3Client';
+import { useGlobalContext } from '../../../lib/GlobalContext';
 import { useToast } from '@chakra-ui/react';
 import { useAnniverseContract } from '../../../lib/anniverse/useAnniverseContract';
 import { Signer } from 'ethers';
@@ -32,7 +32,7 @@ export function useAnniversary(
     defaultValue
   );
   const { contract } = useAnniverseContract(signer);
-  const { startMutate, finishMutate } = useWeb3Context();
+  const { startMutate, finishMutate } = useGlobalContext();
   const [isMinted, setIsMinted] = useState(false);
   const [canEdit, setCanEdit] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);

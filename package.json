@@ -24,8 +24,7 @@
     "playwright": "^1.26.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "react-share": "^4.4.0",
-    "web3modal": "^1.9.9"
+    "react-share": "^4.4.0"
   },
   "devDependencies": {
     "@types/node": "18.7.8",

@@ -3,9 +3,10 @@ import type { AppProps } from 'next/app';
 import { ChakraProvider } from '@chakra-ui/react';
 import '@fontsource/rocknroll-one/400.css';
 import { extendTheme } from '@chakra-ui/react';
-import { Web3ContextProvider } from '../lib/web3Client/Web3ContextProvider';
+import { GlobalContextProvider } from '../lib/GlobalContext';
 import { Loading } from '../components/shared/Loading';
 import { Suspense } from 'react';
+import { Web3Provider } from '../components/shared/Web3Provider';
 
 const theme = extendTheme({
   fonts: {
@@ -17,12 +18,14 @@ const theme = extendTheme({
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <ChakraProvider theme={theme}>
-      <Web3ContextProvider>
-        <Loading />
-        <Suspense fallback={`Loading...`}>
-          <Component {...pageProps} />
-        </Suspense>
-      </Web3ContextProvider>
+      <Web3Provider>
+        <GlobalContextProvider>
+          <Loading />
+          <Suspense fallback={`Loading...`}>
+            <Component {...pageProps} />
+          </Suspense>
+        </GlobalContextProvider>
+      </Web3Provider>
     </ChakraProvider>
   );
 }

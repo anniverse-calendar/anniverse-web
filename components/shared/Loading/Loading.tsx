@@ -8,11 +8,11 @@ import {
   Text,
 } from '@chakra-ui/react';
 import { FC, useRef } from 'react';
-import { useWeb3Context } from '../../../lib/web3Client';
+import { useGlobalContext } from '../../../lib/GlobalContext';
 import { EthereumIcon } from '../../icons/EthereumIcon';
 
 export const Loading: FC = () => {
-  const { processing } = useWeb3Context();
+  const { processing } = useGlobalContext();
   const cancelRef = useRef(null);
   return (
     <AlertDialog

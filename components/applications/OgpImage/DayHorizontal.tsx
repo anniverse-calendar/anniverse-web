@@ -12,7 +12,7 @@ import dayjs from 'dayjs';
 import { useMemo } from 'react';
 import { WEEK_DAYS } from '../../../lib/date/constants';
 import { formatWareki } from '../../../lib/date/formatWareki';
-import { MiniCalendar } from '../MiniCalendar';
+import { MiniCalendar } from '../../shared/MiniCalendar';
 
 export const DayHorizontal: React.FC<{
   year: number;

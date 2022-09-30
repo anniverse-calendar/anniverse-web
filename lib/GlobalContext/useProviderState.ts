@@ -31,7 +31,7 @@ export const useProviderState = (): Provider => {
   };
 };
 
-export const Web3Context = createContext<Provider>({
+export const GlobalContext = createContext<Provider>({
   ...initialState,
   startMutate() {
     return false;

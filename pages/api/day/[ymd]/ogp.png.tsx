@@ -3,9 +3,9 @@ import ReactDOM from 'react-dom/server';
 import * as playwright from 'playwright';
 import { parseYYYYMMDD } from '../../../../lib/date/parseYYYYMMDD';
 import { createWeb3Client } from '../../../../lib/web3Client';
-import { DayHorizontal } from '../../../../components/shared/Day';
 import '@fontsource/rocknroll-one/400.css';
 import { ScreenshotTemplate } from '../../../../components/shared/ScreenshotTemplate';
+import { DayHorizontal } from '../../../../components/applications/OgpImage/DayHorizontal';
 
 export default async function handler(
   req: NextApiRequest,
@@ -22,7 +22,6 @@ export default async function handler(
   const tokenId = month * 100 + day;
   const client = createWeb3Client();
   const anniversary = await client.contract.anniversary(tokenId);
-  console.log({ anniversary });
 
   const viewport = { width: 1200, height: 630 };
 

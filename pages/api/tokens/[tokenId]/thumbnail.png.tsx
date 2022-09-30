@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/server';
 import * as playwright from 'playwright';
 import { createWeb3Client } from '../../../../lib/web3Client';
 import '@fontsource/rocknroll-one/400.css';
-import { Anniversary } from '../../../../components/shared/Anniversary';
+import { Anniversary } from '../../../../components/applications/ERC721MetaImage/Anniversary';
 import { ScreenshotTemplate } from '../../../../components/shared/ScreenshotTemplate';
 
 export default async function handler(

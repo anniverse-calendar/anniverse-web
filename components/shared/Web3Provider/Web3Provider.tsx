@@ -1,13 +1,8 @@
 import { chains, providers } from '@web3modal/ethereum';
 import React, { ReactNode, FC } from 'react';
 import { Web3ModalProvider } from '@web3modal/react';
-import { useProviderState, Web3Context } from './useProviderState';
 
-export const Web3ContextProvider: FC<{ children: ReactNode }> = ({
-  children,
-}) => {
-  console.log(process.env.NODE_ENV);
-  const value = useProviderState();
+export const Web3Provider: FC<{ children: ReactNode }> = ({ children }) => {
   return (
     <Web3ModalProvider
       config={{
@@ -19,7 +14,6 @@ export const Web3ContextProvider: FC<{ children: ReactNode }> = ({
             process.env.NODE_ENV === 'production'
               ? [chains.mainnet]
               : [chains.goerli],
-          // [chains.goerli],
           providers: [
             providers.walletConnectProvider({
               projectId: process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID!,
@@ -28,7 +22,7 @@ export const Web3ContextProvider: FC<{ children: ReactNode }> = ({
         },
       }}
     >
-      <Web3Context.Provider value={value}>{children}</Web3Context.Provider>{' '}
+      {children}
     </Web3ModalProvider>
   );
 };
