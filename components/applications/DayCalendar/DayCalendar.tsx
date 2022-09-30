@@ -1,5 +1,5 @@
 import { LinkIcon } from '@chakra-ui/icons';
-import { Button, Flex } from '@chakra-ui/react';
+import { Button, Flex, Stack, Text } from '@chakra-ui/react';
 import { AnniversaryFormModal } from './AnniversaryForm';
 import { Day } from '../../shared/Day';
 import { ShareButtons } from '../../shared/ShareButtons';
@@ -7,6 +7,7 @@ import { RequireWallet } from '../../shared/RequireWallet';
 import { AnniversaryContainer } from '../../shared/AnniversaryContainer';
 import { useState } from 'react';
 import { Anniversary } from '../../../lib/types/AnniversariesPropType';
+import Link from 'next/link';
 
 type Props = {
   year: number;
@@ -35,43 +36,48 @@ export const DayCalendar: React.FC<Props> = ({
       day={day}
       anniversary={value}
       footer={
-        <Flex justifyContent="space-between" w="full">
-          <RequireWallet>
-            {(signer) => (
-              <AnniversaryContainer
-                month={month}
-                day={day}
-                defaultValues={anniversary}
-                signer={signer}
-                onUpdate={setValue}
-              >
-                {({ canEdit, isMinted, update, mint }) => {
-                  if (!isMinted) {
+        <Stack alignItems="stretch" w="full">
+          <Flex justifyContent="space-between" w="full">
+            <RequireWallet>
+              {(signer) => (
+                <AnniversaryContainer
+                  month={month}
+                  day={day}
+                  defaultValues={anniversary}
+                  signer={signer}
+                  onUpdate={setValue}
+                >
+                  {({ canEdit, isMinted, update, mint }) => {
+                    if (!isMinted) {
+                      return (
+                        <Button
+                          onClick={(e) => {
+                            e.preventDefault();
+                            mint();
+                          }}
+                          leftIcon={<LinkIcon />}
+                        >
+                          記念日を購入（ミント）
+                        </Button>
+                      );
+                    }
                     return (
-                      <Button
-                        onClick={(e) => {
-                          e.preventDefault();
-                          mint();
-                        }}
-                        leftIcon={<LinkIcon />}
-                      >
-                        ミント
-                      </Button>
+                      <AnniversaryFormModal
+                        disabled={!canEdit}
+                        defaultValues={value}
+                        onSubmit={update}
+                      />
                     );
-                  }
-                  return (
-                    <AnniversaryFormModal
-                      disabled={!canEdit}
-                      defaultValues={value}
-                      onSubmit={update}
-                    />
-                  );
-                }}
-              </AnniversaryContainer>
-            )}
-          </RequireWallet>
-          <ShareButtons />
-        </Flex>
+                  }}
+                </AnniversaryContainer>
+              )}
+            </RequireWallet>
+            <ShareButtons />
+          </Flex>
+          <Link href="/#help">
+            <a style={{ color: 'gray' }}>よくある質問/使い方 をみる</a>
+          </Link>
+        </Stack>
       }
     />
   );

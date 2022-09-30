@@ -25,13 +25,43 @@ const Home: NextPage<{
       </Head>
 
       <Landing />
-      <Box bgColor="salmon">
+      <Box bgColor="red.300">
         <Day
           {...props}
           size="sm"
           footer={<NextLink href={`/day/${props.ymd}`}>開く</NextLink>}
         />
         <Flex justifyContent="flex-end" padding="2" gap="2">
+          <Link
+            href={`https://${
+              process.env.NEXT_PUBLIC_WEB3_NETWORK === 'goerli'
+                ? 'testnets.'
+                : ''
+            }opensea.io/collection/anniverse`}
+            target="_blank"
+            rel="noreferrer"
+          >
+            <Img
+              src="/images/Opensea-Logomark-Blue.png"
+              alt="Etherscan"
+              w="30px"
+            />
+          </Link>
+          <Link
+            href={`https://${
+              process.env.NEXT_PUBLIC_WEB3_NETWORK === 'goerli' ? 'goerli.' : ''
+            }etherscan.io/token/${
+              process.env.NEXT_PUBLIC_ANNIVERSARY_TOKEN_ADDRESS
+            }`}
+            target="_blank"
+            rel="noreferrer"
+          >
+            <Img
+              src="/images/etherscan-logo-circle.png"
+              alt="Etherscan"
+              w="30px"
+            />
+          </Link>
           <Link href="https://github.com/anniverse-calendar">
             <Img src="/images/GitHub-Mark-64px.png" alt="GitHub" w="30px" />
           </Link>

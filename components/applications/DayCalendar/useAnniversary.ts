@@ -81,14 +81,8 @@ export function useAnniversary(
     //   console.log('ownerOf', res);
     // });
     Promise.all([
-      contract.hasMinted(month, day).then((res) => {
-        console.log('hasMinted', res);
-        setIsMinted(res);
-      }),
-      contract.isMinter(month, day).then((res) => {
-        console.log('isMinter', res);
-        setCanEdit(res);
-      }),
+      contract.hasMinted(month, day).then(setIsMinted),
+      contract.isMinter(month, day).then(setCanEdit),
     ]).then(() => {
       setIsLoaded(true);
     });

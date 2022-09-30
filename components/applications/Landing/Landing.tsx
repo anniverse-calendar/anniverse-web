@@ -103,7 +103,7 @@ export const Landing: FC = () => {
           </Box>
 
           <Box w="full">
-            <Heading fontSize="2xl" marginBottom="5">
+            <Heading fontSize="2xl" marginBottom="5" id="help">
               よくある質問
             </Heading>
             <Accordion defaultIndex={[0]} allowMultiple>

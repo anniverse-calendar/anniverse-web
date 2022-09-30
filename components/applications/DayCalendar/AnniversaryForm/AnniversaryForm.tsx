@@ -42,7 +42,12 @@ export const AnniversaryFormModal: React.FC<AnniversaryFormProps> = ({
   );
   return (
     <>
-      <Button disabled={disabled} leftIcon={<EditIcon />} onClick={onOpen}>
+      <Button
+        disabled={disabled}
+        colorScheme="green"
+        leftIcon={<EditIcon />}
+        onClick={onOpen}
+      >
         記念日を制定する
       </Button>
 
