@@ -55,9 +55,11 @@ export const Landing: FC = () => {
         >
           <CalendarLinkButton />
           <Box>
-            <Heading fontSize="2xl" marginBottom="5">
-              Anniverse NFTの仕様
-            </Heading>
+            <Link href="/#contract">
+              <Heading fontSize="2xl" marginBottom="5" id="contract">
+                Anniverse NFTの仕様
+              </Heading>
+            </Link>
             <Flex gap="10">
               <Box width="200px" height="200px">
                 <Img src="/images/mint.png" />
@@ -83,9 +85,11 @@ export const Landing: FC = () => {
             </Flex>
           </Box>
           <Box>
-            <Heading fontSize="2xl" marginBottom="5">
-              このサイトでできること
-            </Heading>
+            <Link href="/#site">
+              <Heading fontSize="2xl" marginBottom="5" id="site">
+                このサイトでできること
+              </Heading>
+            </Link>
             <Stack gap="10">
               <Flex alignItems="center" gap="3">
                 <Img src="/images/buy-form.png" width="80px" />
@@ -103,9 +107,11 @@ export const Landing: FC = () => {
           </Box>
 
           <Box w="full">
-            <Heading fontSize="2xl" marginBottom="5" id="help">
-              よくある質問
-            </Heading>
+            <Link href="/#help">
+              <Heading fontSize="2xl" marginBottom="5" id="help">
+                よくある質問
+              </Heading>
+            </Link>
             <Accordion defaultIndex={[0]} allowMultiple>
               <AccordionItem>
                 <h2>
@@ -196,9 +202,11 @@ export const Landing: FC = () => {
           <Stack justifyContent="center" gap="20">
             <CalendarLinkButton />
             <Box>
-              <Heading fontSize="2xl" marginBottom="5">
-                SHARE
-              </Heading>
+              <Link href="/#share">
+                <Heading fontSize="2xl" marginBottom="5" id="share">
+                  SHARE
+                </Heading>
+              </Link>
               <ShareButtons />
             </Box>
           </Stack>
