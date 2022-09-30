@@ -63,7 +63,7 @@ const RequireAccount: FC<{
         }}
         leftIcon={<LinkIcon />}
       >
-        ログイン
+        ログインして祝日を購入
       </Button>
     );
   }
