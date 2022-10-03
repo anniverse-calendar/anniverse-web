@@ -1,3 +1,4 @@
+import dayjs from 'dayjs';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { createWeb3Client } from '../../../lib/web3Client';
 
@@ -23,12 +24,14 @@ export default async function handler(
 
   return res.json({
     description: anniversary.description,
-    external_url: `https://${req.headers.host}/api/tokens/${tokenId}`,
+    external_url: `https://${req.headers.host}/${
+      dayjs().year() * 10000 + tokenId
+    }`,
     image: `https://${req.headers.host}/api/tokens/${tokenId}/thumbnail.png`,
     name: anniversary.name,
     attributes: [
       {
-        trait_type: 'Mouth',
+        trait_type: 'Month',
         value: anniversary.month,
       },
       {
