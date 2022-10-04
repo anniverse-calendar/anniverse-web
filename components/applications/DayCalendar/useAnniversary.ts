@@ -39,6 +39,35 @@ export function useAnniversary(
   useEffect(() => {
     if (contract == null || signer == null) return;
 
+    const anniverse = contract;
+
+    function checkAndUpdateState(): Promise<void>[] {
+      return [
+        anniverse
+          .hasMinted(month, day)
+          .then(setIsMinted)
+          .catch((e) => {
+            toast({
+              title: '状態の取得に失敗しました',
+              status: 'error',
+              duration: 9000,
+              isClosable: true,
+            });
+          }),
+        anniverse
+          .isMinter(month, day)
+          .then(setCanEdit)
+          .catch((e) => {
+            toast({
+              title: '状態の取得に失敗しました',
+              status: 'error',
+              duration: 9000,
+              isClosable: true,
+            });
+          }),
+      ];
+    }
+
     const tokenId = tokenIdFromMonthDay(month, day);
     contract.on(contract.filters.Transfer(), (e) => {
       if (finishMutate()) {
@@ -51,8 +80,7 @@ export function useAnniversary(
       }
       finishMutate();
       // console.log('transfer', e);
-      contract.hasMinted(month, day).then(setIsMinted);
-      contract.isMinter(month, day).then(setCanEdit);
+      checkAndUpdateState();
     });
     contract.on(contract.filters.AnniversaryUpdated(), (e) => {
       if (finishMutate()) {
@@ -71,21 +99,36 @@ export function useAnniversary(
         });
       }
       // console.log('anniversary updated', e);
-      contract.anniversary(tokenId).then(setAnniversary);
-      contract.hasMinted(month, day).then(setIsMinted);
-      contract.isMinter(month, day).then(setCanEdit);
+      contract
+        .anniversary(tokenId)
+        .then(setAnniversary)
+        .catch((e) => {
+          toast({
+            title: 'データの取得に失敗しました',
+            status: 'error',
+            duration: 9000,
+            isClosable: true,
+          });
+        });
+      checkAndUpdateState();
     });
 
+    Promise.all(checkAndUpdateState()).then(() => {
+      setIsLoaded(true);
+    });
+
+    // NFTオーナー確認
     // contract.ownerOf(month * 100 + day).then((res) => {
     //   console.log({ signer });
     //   console.log('ownerOf', res);
     // });
-    Promise.all([
-      contract.hasMinted(month, day).then(setIsMinted),
-      contract.isMinter(month, day).then(setCanEdit),
-    ]).then(() => {
-      setIsLoaded(true);
-    });
+
+    // コントラクトオーナー確認
+    // signer.getAddress().then((address) => {
+    //   contract.isContractOwner(address).then((isOwner) => {
+    //     console.log({ address, isOwner });
+    //   });
+    // });
   }, [
     signer,
     month,
