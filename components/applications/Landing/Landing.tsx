@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { ComponentProps, FC, ReactNode } from 'react';
 import {
   Box,
   Heading,
@@ -18,8 +18,11 @@ import { CalendarUrl } from '../../shared/CalendarUrl';
 import { CalendarIcon } from '../../icons/CalendarIcon';
 import { CalendarLinkButton } from './CalendarLinkButton';
 import { ShareButtons } from '../../shared/ShareButtons';
+import { Pricing } from './Pricing';
 
-export const Landing: FC = () => {
+export const Landing: FC<ComponentProps<typeof Pricing>> = ({
+  ...pricingProps
+}) => {
   return (
     <Container maxW={'3xl'}>
       <Stack
@@ -47,6 +50,7 @@ export const Landing: FC = () => {
           <br />
           購入した祝日は二次販売サイトで売却可能です。
         </Text>
+        <Pricing {...pricingProps} />
         <Stack
           direction={'column'}
           align={'center'}

@@ -82,6 +82,7 @@ export interface AnniversaryTokenInterface extends utils.Interface {
     "balanceOf(address)": FunctionFragment;
     "burn(uint256)": FunctionFragment;
     "getApproved(uint256)": FunctionFragment;
+    "getCount()": FunctionFragment;
     "getPrice()": FunctionFragment;
     "getRoleAdmin(bytes32)": FunctionFragment;
     "getRoleMember(bytes32,uint256)": FunctionFragment;
@@ -124,6 +125,7 @@ export interface AnniversaryTokenInterface extends utils.Interface {
       | "balanceOf"
       | "burn"
       | "getApproved"
+      | "getCount"
       | "getPrice"
       | "getRoleAdmin"
       | "getRoleMember"
@@ -188,6 +190,7 @@ export interface AnniversaryTokenInterface extends utils.Interface {
     functionFragment: "getApproved",
     values: [PromiseOrValue<BigNumberish>]
   ): string;
+  encodeFunctionData(functionFragment: "getCount", values?: undefined): string;
   encodeFunctionData(functionFragment: "getPrice", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "getRoleAdmin",
@@ -333,6 +336,7 @@ export interface AnniversaryTokenInterface extends utils.Interface {
     functionFragment: "getApproved",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "getCount", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "getPrice", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "getRoleAdmin",
@@ -592,6 +596,8 @@ export interface AnniversaryToken extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[string]>;
 
+    getCount(overrides?: CallOverrides): Promise<[BigNumber]>;
+
     getPrice(overrides?: CallOverrides): Promise<[BigNumber]>;
 
     getRoleAdmin(
@@ -782,6 +788,8 @@ export interface AnniversaryToken extends BaseContract {
     overrides?: CallOverrides
   ): Promise<string>;
 
+  getCount(overrides?: CallOverrides): Promise<BigNumber>;
+
   getPrice(overrides?: CallOverrides): Promise<BigNumber>;
 
   getRoleAdmin(
@@ -971,6 +979,8 @@ export interface AnniversaryToken extends BaseContract {
       tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<string>;
+
+    getCount(overrides?: CallOverrides): Promise<BigNumber>;
 
     getPrice(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -1240,6 +1250,8 @@ export interface AnniversaryToken extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
+    getCount(overrides?: CallOverrides): Promise<BigNumber>;
+
     getPrice(overrides?: CallOverrides): Promise<BigNumber>;
 
     getRoleAdmin(
@@ -1430,6 +1442,8 @@ export interface AnniversaryToken extends BaseContract {
       tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
+
+    getCount(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     getPrice(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 

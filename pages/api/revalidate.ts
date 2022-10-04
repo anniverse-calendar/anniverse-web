@@ -25,8 +25,8 @@ export default async function handler(
     await revalidate('/month');
     console.log('revalidate: year calendar');
     await revalidate('/year');
-    console.log('revalidate: calendar');
-    await revalidate('/api/calendar.ics');
+    // console.log('revalidate: calendar');
+    // await revalidate('/api/calendar.ics');
 
     for (
       let year = dayjs().subtract(10, 'year').year();

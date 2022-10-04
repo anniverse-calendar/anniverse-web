@@ -14,6 +14,8 @@ const Home: NextPage<{
   year: number;
   month: number;
   day: number;
+  price: number;
+  tokenCount: number;
   anniversary: Anniversable.AnniversaryStructOutput;
 }> = (props) => {
   return (
@@ -24,8 +26,12 @@ const Home: NextPage<{
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Landing />
-      <Box bgColor="red.300">
+      <Landing
+        currentPrice={props.price}
+        originalPrice={1}
+        quantity={props.tokenCount}
+      />
+      <Box bgColor="papayawhip">
         <Day
           {...props}
           size="sm"
@@ -77,12 +83,16 @@ export const getServerSideProps: GetServerSideProps = async () => {
   const tokenId = month * 100 + day;
   const client = createWeb3Client();
   const anniversary = await client.contract.anniversary(tokenId);
+  const price = await client.contract.getPrice();
+  const count = await client.contract.getCount();
   return {
     props: {
       ymd,
       year,
       month,
       day,
+      price: price.toNumber(),
+      tokenCount: count.toNumber(),
       anniversary: {
         name: anniversary.name,
         description: anniversary.description,

@@ -13,7 +13,9 @@ export const Web3Provider: FC<{ children: ReactNode }> = ({ children }) => {
           chains:
             process.env.NEXT_PUBLIC_WEB3_NETWORK === 'goerli'
               ? [chains.goerli]
-              : [chains.mainnet],
+              : process.env.NODE_ENV === 'production'
+              ? [chains.mainnet]
+              : [chains.localhost],
           providers: [
             providers.walletConnectProvider({
               projectId: process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID!,
