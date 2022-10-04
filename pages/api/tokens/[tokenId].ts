@@ -24,8 +24,8 @@ export default async function handler(
 
   return res.json({
     description: anniversary.description,
-    external_url: `https://${req.headers.host}/${
-      dayjs().year() * 10000 + tokenId
+    external_url: `https://${req.headers.host}/day/${
+      dayjs().year() * 10000 + Number(tokenId)
     }`,
     image: `https://${req.headers.host}/api/tokens/${tokenId}/thumbnail.png`,
     name: anniversary.name,
