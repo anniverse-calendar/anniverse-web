@@ -19,6 +19,7 @@ import { CalendarIcon } from '../../icons/CalendarIcon';
 import { CalendarLinkButton } from './CalendarLinkButton';
 import { ShareButtons } from '../../shared/ShareButtons';
 import { Pricing } from './Pricing';
+import { OpenSeaLink } from '../../shared/OpenSeaLink';
 
 export const Landing: FC<ComponentProps<typeof Pricing>> = ({
   ...pricingProps
@@ -213,6 +214,7 @@ export const Landing: FC<ComponentProps<typeof Pricing>> = ({
               </Link>
               <ShareButtons />
             </Box>
+            <OpenSeaLink />
           </Stack>
         </Stack>
       </Stack>

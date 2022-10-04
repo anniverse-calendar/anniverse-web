@@ -7,6 +7,7 @@ import { useParamsYMD } from '../../../lib/date/useParamsYMD';
 import { AnniversariesPropType } from '../../../lib/types/AnniversariesPropType';
 import { CalendarUrl } from '../CalendarUrl';
 import { ShareButtons } from '../ShareButtons';
+import { OpenSeaLink } from '../OpenSeaLink';
 
 export const AppLayout: FC<{ children: ReactNode } & AnniversariesPropType> = ({
   children,
@@ -60,6 +61,7 @@ export const AppLayout: FC<{ children: ReactNode } & AnniversariesPropType> = ({
           <Text marginBottom="3">SHARE</Text>
           <ShareButtons />
         </Box>
+        <OpenSeaLink paddingTop="5" />
       </Stack>
       <Stack w="full">{children}</Stack>
     </Flex>

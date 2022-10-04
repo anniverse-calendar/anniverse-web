@@ -13,6 +13,7 @@ import { createWeb3Client } from '../../lib/web3Client/createWeb3Client';
 import { parseYYYYMMDD } from '../../lib/date/parseYYYYMMDD';
 import dayjs from 'dayjs';
 import { useMemo } from 'react';
+import { OpenSeaLink } from '../../components/shared/OpenSeaLink';
 
 const Day: NextPage<{
   year: number;
@@ -77,7 +78,7 @@ const Day: NextPage<{
         <meta key="meta-og:image:alt" property="og:image:alt" content={title} />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Stack>
+      <Stack mb={3}>
         <Flex position="sticky" top="0" alignItems="center" gap="5">
           <NextLink
             href={`/month?ym=${(params.year * 100 + params.month).toString()}`}
@@ -98,6 +99,7 @@ const Day: NextPage<{
           </NextLink>
         </Flex>
         <DayCalendar key={today} {...params} />
+        <OpenSeaLink alignSelf="center" />
       </Stack>
     </>
   );
