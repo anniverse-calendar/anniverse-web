@@ -18,17 +18,13 @@ export default async function handler(
   const client = createWeb3Client();
   const anniversary = await client.contract.anniversary(tokenId);
 
-  if (anniversary.isEmpty) {
-    return res.status(404).send('Not found');
-  }
-
   return res.json({
     description: anniversary.description,
     external_url: `https://${req.headers.host}/day/${
       dayjs().year() * 10000 + Number(tokenId)
     }`,
     image: `https://${req.headers.host}/api/tokens/${tokenId}/thumbnail.png`,
-    name: anniversary.name,
+    name: anniversary.name || 'Anniverse',
     attributes: [
       {
         trait_type: 'Month',
