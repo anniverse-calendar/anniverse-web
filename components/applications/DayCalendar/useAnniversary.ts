@@ -74,7 +74,7 @@ export function useAnniversary(
         toast({
           title: 'ミントしました！',
           status: 'success',
-          duration: 9000,
+          duration: 2500,
           isClosable: true,
         });
       }
@@ -87,7 +87,7 @@ export function useAnniversary(
         toast({
           title: '更新しました！',
           status: 'success',
-          duration: 9000,
+          duration: 2500,
           isClosable: true,
         });
         fetch(`/api/revalidate`, {

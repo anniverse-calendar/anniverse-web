@@ -19,7 +19,7 @@ export default async function handler(
   const anniversary = await client.contract.anniversary(tokenId);
 
   return res.json({
-    description: anniversary.description,
+    description: anniversary.description || 'No description. please set to NFT',
     external_url: `https://${req.headers.host}/day/${
       dayjs().year() * 10000 + Number(tokenId)
     }`,
