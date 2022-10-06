@@ -1,12 +1,16 @@
 import { Img, Link, LinkProps } from '@chakra-ui/react';
 import { FC } from 'react';
 
-export const OpenSeaLink: FC<LinkProps> = (props) => {
+export const OpenSeaLink: FC<LinkProps & { path?: string; text?: string }> = ({
+  path,
+  text,
+  ...props
+}) => {
   return (
     <Link
       href={`https://${
         process.env.NEXT_PUBLIC_WEB3_NETWORK === 'goerli' ? 'testnets.' : ''
-      }opensea.io/account`}
+      }opensea.io${path ?? '/account'}`}
       target="_blank"
       rel="noreferrer"
       display="inline-flex"
@@ -15,7 +19,7 @@ export const OpenSeaLink: FC<LinkProps> = (props) => {
       {...props}
     >
       <Img src="/images/Opensea-Logomark-Blue.png" alt="Etherscan" w="30px" />{' '}
-      購入したNFTをOpenSeaで確認する
+      {text ?? '購入したNFTをOpenSeaで確認する'}
     </Link>
   );
 };

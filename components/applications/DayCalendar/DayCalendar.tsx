@@ -8,6 +8,7 @@ import { AnniversaryContainer } from '../../shared/AnniversaryContainer';
 import { useState } from 'react';
 import { Anniversary } from '../../../lib/types/AnniversariesPropType';
 import Link from 'next/link';
+import { OpenSeaLink } from '../../shared/OpenSeaLink';
 
 type Props = {
   year: number;
@@ -61,9 +62,17 @@ export const DayCalendar: React.FC<Props> = ({
                         </Button>
                       );
                     }
+                    if (!canEdit) {
+                      const tokenId = month * 100 + day;
+                      return (
+                        <OpenSeaLink
+                          path={`/assets/${process.env.NEXT_PUBLIC_ANNIVERSARY_TOKEN_ADDRESS}/${tokenId}`}
+                          text="OpenSeaでこの祝日を確認"
+                        />
+                      );
+                    }
                     return (
                       <AnniversaryFormModal
-                        disabled={!canEdit}
                         defaultValues={value}
                         onSubmit={update}
                       />
