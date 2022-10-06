@@ -33,13 +33,21 @@ export declare namespace Anniversable {
     description: PromiseOrValue<string>;
     author: PromiseOrValue<string>;
     authorUrl: PromiseOrValue<string>;
+    lang: PromiseOrValue<string>;
   };
 
-  export type _AnniversaryStructOutput = [string, string, string, string] & {
+  export type _AnniversaryStructOutput = [
+    string,
+    string,
+    string,
+    string,
+    string
+  ] & {
     name: string;
     description: string;
     author: string;
     authorUrl: string;
+    lang: string;
   };
 
   export type AnniversaryStruct = {
@@ -49,12 +57,14 @@ export declare namespace Anniversable {
     description: PromiseOrValue<string>;
     author: PromiseOrValue<string>;
     authorUrl: PromiseOrValue<string>;
+    lang: PromiseOrValue<string>;
     isEmpty: PromiseOrValue<boolean>;
   };
 
   export type AnniversaryStructOutput = [
     number,
     number,
+    string,
     string,
     string,
     string,
@@ -67,6 +77,7 @@ export declare namespace Anniversable {
     description: string;
     author: string;
     authorUrl: string;
+    lang: string;
     isEmpty: boolean;
   };
 }
@@ -83,7 +94,7 @@ export interface AnniversableInterface extends utils.Interface {
     "ownerOf(uint256)": FunctionFragment;
     "safeTransferFrom(address,address,uint256)": FunctionFragment;
     "safeTransferFrom(address,address,uint256,bytes)": FunctionFragment;
-    "setAnniversary(uint256,string,string,string,string)": FunctionFragment;
+    "setAnniversary(uint256,string,string,string,string,string)": FunctionFragment;
     "setApprovalForAll(address,bool)": FunctionFragment;
     "supportsInterface(bytes4)": FunctionFragment;
     "symbol()": FunctionFragment;
@@ -161,6 +172,7 @@ export interface AnniversableInterface extends utils.Interface {
     functionFragment: "setAnniversary",
     values: [
       PromiseOrValue<BigNumberish>,
+      PromiseOrValue<string>,
       PromiseOrValue<string>,
       PromiseOrValue<string>,
       PromiseOrValue<string>,
@@ -383,6 +395,7 @@ export interface Anniversable extends BaseContract {
       _description: PromiseOrValue<string>,
       _author: PromiseOrValue<string>,
       _authorUrl: PromiseOrValue<string>,
+      _lang: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
@@ -471,6 +484,7 @@ export interface Anniversable extends BaseContract {
     _description: PromiseOrValue<string>,
     _author: PromiseOrValue<string>,
     _authorUrl: PromiseOrValue<string>,
+    _lang: PromiseOrValue<string>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
@@ -559,6 +573,7 @@ export interface Anniversable extends BaseContract {
       _description: PromiseOrValue<string>,
       _author: PromiseOrValue<string>,
       _authorUrl: PromiseOrValue<string>,
+      _lang: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -690,6 +705,7 @@ export interface Anniversable extends BaseContract {
       _description: PromiseOrValue<string>,
       _author: PromiseOrValue<string>,
       _authorUrl: PromiseOrValue<string>,
+      _lang: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
@@ -777,6 +793,7 @@ export interface Anniversable extends BaseContract {
       _description: PromiseOrValue<string>,
       _author: PromiseOrValue<string>,
       _authorUrl: PromiseOrValue<string>,
+      _lang: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 

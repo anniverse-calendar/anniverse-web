@@ -34,13 +34,21 @@ export declare namespace Anniversable {
     description: PromiseOrValue<string>;
     author: PromiseOrValue<string>;
     authorUrl: PromiseOrValue<string>;
+    lang: PromiseOrValue<string>;
   };
 
-  export type _AnniversaryStructOutput = [string, string, string, string] & {
+  export type _AnniversaryStructOutput = [
+    string,
+    string,
+    string,
+    string,
+    string
+  ] & {
     name: string;
     description: string;
     author: string;
     authorUrl: string;
+    lang: string;
   };
 
   export type AnniversaryStruct = {
@@ -50,12 +58,14 @@ export declare namespace Anniversable {
     description: PromiseOrValue<string>;
     author: PromiseOrValue<string>;
     authorUrl: PromiseOrValue<string>;
+    lang: PromiseOrValue<string>;
     isEmpty: PromiseOrValue<boolean>;
   };
 
   export type AnniversaryStructOutput = [
     number,
     number,
+    string,
     string,
     string,
     string,
@@ -68,6 +78,7 @@ export declare namespace Anniversable {
     description: string;
     author: string;
     authorUrl: string;
+    lang: string;
     isEmpty: boolean;
   };
 }
@@ -102,7 +113,7 @@ export interface AnniversaryTokenInterface extends utils.Interface {
     "revokeRole(bytes32,address)": FunctionFragment;
     "safeTransferFrom(address,address,uint256)": FunctionFragment;
     "safeTransferFrom(address,address,uint256,bytes)": FunctionFragment;
-    "setAnniversary(uint256,string,string,string,string)": FunctionFragment;
+    "setAnniversary(uint256,string,string,string,string,string)": FunctionFragment;
     "setApprovalForAll(address,bool)": FunctionFragment;
     "setBaseURI(string)": FunctionFragment;
     "supportsInterface(bytes4)": FunctionFragment;
@@ -268,6 +279,7 @@ export interface AnniversaryTokenInterface extends utils.Interface {
     functionFragment: "setAnniversary",
     values: [
       PromiseOrValue<BigNumberish>,
+      PromiseOrValue<string>,
       PromiseOrValue<string>,
       PromiseOrValue<string>,
       PromiseOrValue<string>,
@@ -703,6 +715,7 @@ export interface AnniversaryToken extends BaseContract {
       _description: PromiseOrValue<string>,
       _author: PromiseOrValue<string>,
       _authorUrl: PromiseOrValue<string>,
+      _lang: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
@@ -895,6 +908,7 @@ export interface AnniversaryToken extends BaseContract {
     _description: PromiseOrValue<string>,
     _author: PromiseOrValue<string>,
     _authorUrl: PromiseOrValue<string>,
+    _lang: PromiseOrValue<string>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
@@ -1085,6 +1099,7 @@ export interface AnniversaryToken extends BaseContract {
       _description: PromiseOrValue<string>,
       _author: PromiseOrValue<string>,
       _authorUrl: PromiseOrValue<string>,
+      _lang: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -1357,6 +1372,7 @@ export interface AnniversaryToken extends BaseContract {
       _description: PromiseOrValue<string>,
       _author: PromiseOrValue<string>,
       _authorUrl: PromiseOrValue<string>,
+      _lang: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
@@ -1550,6 +1566,7 @@ export interface AnniversaryToken extends BaseContract {
       _description: PromiseOrValue<string>,
       _author: PromiseOrValue<string>,
       _authorUrl: PromiseOrValue<string>,
+      _lang: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 

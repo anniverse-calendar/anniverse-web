@@ -171,7 +171,8 @@ export function useAnniversary(
           data.name,
           data.description,
           data.author,
-          data.authorUrl
+          data.authorUrl,
+          'ja-jp'
         );
       } catch (e) {
         finishMutate();
