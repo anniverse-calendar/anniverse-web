@@ -8,13 +8,14 @@ import { Anniversable } from '../generated/typechain-types';
 import { parseYYYYMMDD } from '../lib/date/parseYYYYMMDD';
 import { createWeb3Client } from '../lib/web3Client';
 import NextLink from 'next/link';
+import { ethers } from 'ethers';
 
 const Home: NextPage<{
   ymd: string;
   year: number;
   month: number;
   day: number;
-  price: number;
+  price: string;
   tokenCount: number;
   anniversary: Anniversable.AnniversaryStructOutput;
 }> = (props) => {
@@ -28,7 +29,7 @@ const Home: NextPage<{
 
       <Landing
         currentPrice={props.price}
-        originalPrice={1}
+        originalPrice={'1.0'}
         quantity={props.tokenCount}
       />
       <Box bgColor="papayawhip">
@@ -83,7 +84,7 @@ export const getServerSideProps: GetServerSideProps = async () => {
   const tokenId = month * 100 + day;
   const client = createWeb3Client();
   const anniversary = await client.contract.anniversary(tokenId);
-  const price = await client.contract.getPrice();
+  const price = await client.contract.getPrice(102);
   const count = await client.contract.getCount();
   return {
     props: {
@@ -91,7 +92,7 @@ export const getServerSideProps: GetServerSideProps = async () => {
       year,
       month,
       day,
-      price: price.toNumber(),
+      price: ethers.utils.formatEther(price),
       tokenCount: count.toNumber(),
       anniversary: {
         name: anniversary.name,

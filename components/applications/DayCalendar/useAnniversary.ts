@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useGlobalContext } from '../../../lib/GlobalContext';
 import { useToast } from '@chakra-ui/react';
 import { useAnniverseContract } from '../../../lib/anniverse/useAnniverseContract';
-import { Signer } from 'ethers';
+import { BigNumber, Signer } from 'ethers';
 
 export type Anniversary = {
   name: string;
@@ -14,6 +14,7 @@ export type Anniversary = {
 
 export type UseAnniversaryResult = {
   value?: Anniversary;
+  price: BigNumber;
   isLoaded: boolean;
   isMinted: boolean;
   canEdit: boolean;
@@ -33,6 +34,7 @@ export function useAnniversary(
   );
   const { contract } = useAnniverseContract(signer);
   const { startMutate, finishMutate } = useGlobalContext();
+  const [price, setPrice] = useState(BigNumber.from(0));
   const [isMinted, setIsMinted] = useState(false);
   const [canEdit, setCanEdit] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
@@ -43,6 +45,17 @@ export function useAnniversary(
 
     function checkAndUpdateState(): Promise<void>[] {
       return [
+        anniverse
+          .getPrice(month * 100 + day)
+          .then(setPrice)
+          .catch((e) => {
+            toast({
+              title: '状態の取得に失敗しました',
+              status: 'error',
+              duration: 9000,
+              isClosable: true,
+            });
+          }),
         anniverse
           .hasMinted(month, day)
           .then(setIsMinted)
@@ -142,6 +155,7 @@ export function useAnniversary(
 
   return {
     value: anniversary,
+    price,
     isLoaded,
     isMinted,
     canEdit,
@@ -149,7 +163,7 @@ export function useAnniversary(
       if (contract == null || signer == null) return;
       try {
         startMutate();
-        await contract.mint(month, day);
+        await contract.mint(month, day, { value: price });
       } catch (e) {
         finishMutate();
         toast({

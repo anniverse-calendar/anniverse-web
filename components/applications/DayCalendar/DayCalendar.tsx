@@ -9,6 +9,7 @@ import { useState } from 'react';
 import { Anniversary } from '../../../lib/types/AnniversariesPropType';
 import Link from 'next/link';
 import { OpenSeaLink } from '../../shared/OpenSeaLink';
+import { ethers } from 'ethers';
 
 type Props = {
   year: number;
@@ -48,18 +49,31 @@ export const DayCalendar: React.FC<Props> = ({
                   signer={signer}
                   onUpdate={setValue}
                 >
-                  {({ canEdit, isMinted, update, mint }) => {
+                  {({ canEdit, isMinted, update, mint, price }) => {
                     if (!isMinted) {
                       return (
-                        <Button
-                          onClick={(e) => {
-                            e.preventDefault();
-                            mint();
-                          }}
-                          leftIcon={<LinkIcon />}
-                        >
-                          記念日を購入（ミント）
-                        </Button>
+                        <Stack>
+                          <Flex alignItems="flex-end">
+                            <Text fontSize="sm" mr="1">
+                              価格:
+                            </Text>
+                            <Text fontSize="sm" color="red.500">
+                              {ethers.utils.formatEther(price)}ETH
+                            </Text>
+                            <Text fontSize="xs" ml="1">
+                              +GAS
+                            </Text>
+                          </Flex>
+                          <Button
+                            onClick={(e) => {
+                              e.preventDefault();
+                              mint();
+                            }}
+                            leftIcon={<LinkIcon />}
+                          >
+                            祝日を購入（ミント）
+                          </Button>
+                        </Stack>
                       );
                     }
                     if (!canEdit) {
