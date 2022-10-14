@@ -46,17 +46,17 @@ export const DayHorizontal: React.FC<{
     >
       <Box flex={3}>
         <Flex justifyContent="center" w="full" gap="5">
-          <Text padding="5" fontSize="4xl">
+          <Text padding="5" fontSize="4xl" color="red.600">
             {year}年
           </Text>
-          <Text padding="5" fontSize="4xl">
+          <Text padding="5" fontSize="4xl" color="red.600">
             {month}月
           </Text>
-          <Text padding="5" fontSize="4xl">
+          <Text padding="5" fontSize="4xl" color="red.600">
             {wareki}
           </Text>
         </Flex>
-        <Heading fontSize="300px" w="full" textAlign="center">
+        <Heading fontSize="300px" w="full" textAlign="center" color="red.600">
           {day}
         </Heading>
         <Flex justifyContent="center" w="full" gap="5">
