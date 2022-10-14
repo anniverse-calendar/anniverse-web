@@ -19,12 +19,14 @@ export default async function handler(
   const anniversary = await client.contract.anniversary(tokenId);
 
   return res.json({
-    description: anniversary.description || 'No description. please set to NFT',
+    image: `https://${req.headers.host}/api/tokens/${tokenId}/thumbnail.png`,
     external_url: `https://${req.headers.host}/day/${
       dayjs().year() * 10000 + Number(tokenId)
     }`,
-    image: `https://${req.headers.host}/api/tokens/${tokenId}/thumbnail.png`,
-    name: anniversary.name || 'Anniverse',
+    description: anniversary.description || 'No description. please set to NFT',
+    name:
+      anniversary.name ||
+      `${anniversary.month}月${anniversary.day}日 Anniverse`,
     attributes: [
       {
         trait_type: 'Month',
