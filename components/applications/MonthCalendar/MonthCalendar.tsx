@@ -133,5 +133,5 @@ const useAnniversary =
   };
 
 const generateUrl = (path: string): string => {
-  return `https://${location.host}${path}`;
+  return `${process.env.NEXT_PUBLIC_HTTP_HOST}/${path}`;
 };
